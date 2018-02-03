@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.InformationMapper">
+  <resultMap id="BaseResultMap" type="po.Information">
+    <id column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="info_sex" jdbcType="INTEGER" property="infoSex" />
+    <result column="info_realname" jdbcType="VARCHAR" property="infoRealname" />
+    <result column="info_iconimg" jdbcType="VARCHAR" property="infoIconimg" />
+    <result column="info_school_id" jdbcType="INTEGER" property="infoSchoolId" />
+    <result column="info_introduce" jdbcType="VARCHAR" property="infoIntroduce" />
+    <result column="info_nickname" jdbcType="VARCHAR" property="infoNickname" />
+    <result column="info_birthday" jdbcType="TIMESTAMP" property="infoBirthday" />
+    <result column="info_createtime" jdbcType="TIMESTAMP" property="infoCreatetime" />
+    <result column="info_changetime" jdbcType="TIMESTAMP" property="infoChangetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    info_id, user_id, info_sex, info_realname, info_iconimg, info_school_id, info_introduce, 
+    info_nickname, info_birthday, info_createtime, info_changetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_information
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_information
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Information">
+    insert into db_information (info_id, user_id, info_sex, 
+      info_realname, info_iconimg, info_school_id, 
+      info_introduce, info_nickname, info_birthday, 
+      info_createtime, info_changetime)
+    values (#{infoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{infoSex,jdbcType=INTEGER}, 
+      #{infoRealname,jdbcType=VARCHAR}, #{infoIconimg,jdbcType=VARCHAR}, #{infoSchoolId,jdbcType=INTEGER}, 
+      #{infoIntroduce,jdbcType=VARCHAR}, #{infoNickname,jdbcType=VARCHAR}, #{infoBirthday,jdbcType=TIMESTAMP}, 
+      #{infoCreatetime,jdbcType=TIMESTAMP}, #{infoChangetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Information">
+    insert into db_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        info_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="infoSex != null">
+        info_sex,
+      </if>
+      <if test="infoRealname != null">
+        info_realname,
+      </if>
+      <if test="infoIconimg != null">
+        info_iconimg,
+      </if>
+      <if test="infoSchoolId != null">
+        info_school_id,
+      </if>
+      <if test="infoIntroduce != null">
+        info_introduce,
+      </if>
+      <if test="infoNickname != null">
+        info_nickname,
+      </if>
+      <if test="infoBirthday != null">
+        info_birthday,
+      </if>
+      <if test="infoCreatetime != null">
+        info_createtime,
+      </if>
+      <if test="infoChangetime != null">
+        info_changetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="infoId != null">
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="infoSex != null">
+        #{infoSex,jdbcType=INTEGER},
+      </if>
+      <if test="infoRealname != null">
+        #{infoRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoIconimg != null">
+        #{infoIconimg,jdbcType=VARCHAR},
+      </if>
+      <if test="infoSchoolId != null">
+        #{infoSchoolId,jdbcType=INTEGER},
+      </if>
+      <if test="infoIntroduce != null">
+        #{infoIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="infoNickname != null">
+        #{infoNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoBirthday != null">
+        #{infoBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="infoCreatetime != null">
+        #{infoCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="infoChangetime != null">
+        #{infoChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Information">
+    update db_information
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="infoSex != null">
+        info_sex = #{infoSex,jdbcType=INTEGER},
+      </if>
+      <if test="infoRealname != null">
+        info_realname = #{infoRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoIconimg != null">
+        info_iconimg = #{infoIconimg,jdbcType=VARCHAR},
+      </if>
+      <if test="infoSchoolId != null">
+        info_school_id = #{infoSchoolId,jdbcType=INTEGER},
+      </if>
+      <if test="infoIntroduce != null">
+        info_introduce = #{infoIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="infoNickname != null">
+        info_nickname = #{infoNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="infoBirthday != null">
+        info_birthday = #{infoBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="infoCreatetime != null">
+        info_createtime = #{infoCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="infoChangetime != null">
+        info_changetime = #{infoChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Information">
+    update db_information
+    set user_id = #{userId,jdbcType=INTEGER},
+      info_sex = #{infoSex,jdbcType=INTEGER},
+      info_realname = #{infoRealname,jdbcType=VARCHAR},
+      info_iconimg = #{infoIconimg,jdbcType=VARCHAR},
+      info_school_id = #{infoSchoolId,jdbcType=INTEGER},
+      info_introduce = #{infoIntroduce,jdbcType=VARCHAR},
+      info_nickname = #{infoNickname,jdbcType=VARCHAR},
+      info_birthday = #{infoBirthday,jdbcType=TIMESTAMP},
+      info_createtime = #{infoCreatetime,jdbcType=TIMESTAMP},
+      info_changetime = #{infoChangetime,jdbcType=TIMESTAMP}
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+</mapper>

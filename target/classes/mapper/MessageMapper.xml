@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="po.Message">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="message_send_user_id" jdbcType="INTEGER" property="messageSendUserId" />
+    <result column="message_receive_user_id" jdbcType="INTEGER" property="messageReceiveUserId" />
+    <result column="message_content" jdbcType="VARCHAR" property="messageContent" />
+    <result column="message_img" jdbcType="VARCHAR" property="messageImg" />
+    <result column="message_createtime" jdbcType="TIMESTAMP" property="messageCreatetime" />
+    <result column="message_type" jdbcType="INTEGER" property="messageType" />
+    <result column="message_receive_state" jdbcType="INTEGER" property="messageReceiveState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    message_id, message_send_user_id, message_receive_user_id, message_content, message_img, 
+    message_createtime, message_type, message_receive_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Message">
+    insert into db_message (message_id, message_send_user_id, message_receive_user_id, 
+      message_content, message_img, message_createtime, 
+      message_type, message_receive_state)
+    values (#{messageId,jdbcType=INTEGER}, #{messageSendUserId,jdbcType=INTEGER}, #{messageReceiveUserId,jdbcType=INTEGER}, 
+      #{messageContent,jdbcType=VARCHAR}, #{messageImg,jdbcType=VARCHAR}, #{messageCreatetime,jdbcType=TIMESTAMP}, 
+      #{messageType,jdbcType=INTEGER}, #{messageReceiveState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Message">
+    insert into db_message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        message_id,
+      </if>
+      <if test="messageSendUserId != null">
+        message_send_user_id,
+      </if>
+      <if test="messageReceiveUserId != null">
+        message_receive_user_id,
+      </if>
+      <if test="messageContent != null">
+        message_content,
+      </if>
+      <if test="messageImg != null">
+        message_img,
+      </if>
+      <if test="messageCreatetime != null">
+        message_createtime,
+      </if>
+      <if test="messageType != null">
+        message_type,
+      </if>
+      <if test="messageReceiveState != null">
+        message_receive_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="messageId != null">
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="messageSendUserId != null">
+        #{messageSendUserId,jdbcType=INTEGER},
+      </if>
+      <if test="messageReceiveUserId != null">
+        #{messageReceiveUserId,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null">
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageImg != null">
+        #{messageImg,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCreatetime != null">
+        #{messageCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageType != null">
+        #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="messageReceiveState != null">
+        #{messageReceiveState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Message">
+    update db_message
+    <set>
+      <if test="messageSendUserId != null">
+        message_send_user_id = #{messageSendUserId,jdbcType=INTEGER},
+      </if>
+      <if test="messageReceiveUserId != null">
+        message_receive_user_id = #{messageReceiveUserId,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null">
+        message_content = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="messageImg != null">
+        message_img = #{messageImg,jdbcType=VARCHAR},
+      </if>
+      <if test="messageCreatetime != null">
+        message_createtime = #{messageCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="messageType != null">
+        message_type = #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="messageReceiveState != null">
+        message_receive_state = #{messageReceiveState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Message">
+    update db_message
+    set message_send_user_id = #{messageSendUserId,jdbcType=INTEGER},
+      message_receive_user_id = #{messageReceiveUserId,jdbcType=INTEGER},
+      message_content = #{messageContent,jdbcType=VARCHAR},
+      message_img = #{messageImg,jdbcType=VARCHAR},
+      message_createtime = #{messageCreatetime,jdbcType=TIMESTAMP},
+      message_type = #{messageType,jdbcType=INTEGER},
+      message_receive_state = #{messageReceiveState,jdbcType=INTEGER}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+</mapper>

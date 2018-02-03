@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="po.Comment">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="comment_to_user_id" jdbcType="INTEGER" property="commentToUserId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+    <result column="comment_state" jdbcType="INTEGER" property="commentState" />
+    <result column="comment_createtime" jdbcType="TIMESTAMP" property="commentCreatetime" />
+    <result column="comment_changetime" jdbcType="TIMESTAMP" property="commentChangetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, user_id, comment_to_user_id, task_id, comment_content, comment_state, 
+    comment_createtime, comment_changetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Comment">
+    insert into db_comment (comment_id, user_id, comment_to_user_id, 
+      task_id, comment_content, comment_state, 
+      comment_createtime, comment_changetime
+      )
+    values (#{commentId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{commentToUserId,jdbcType=INTEGER}, 
+      #{taskId,jdbcType=INTEGER}, #{commentContent,jdbcType=VARCHAR}, #{commentState,jdbcType=INTEGER}, 
+      #{commentCreatetime,jdbcType=TIMESTAMP}, #{commentChangetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Comment">
+    insert into db_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="commentToUserId != null">
+        comment_to_user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+      <if test="commentState != null">
+        comment_state,
+      </if>
+      <if test="commentCreatetime != null">
+        comment_createtime,
+      </if>
+      <if test="commentChangetime != null">
+        comment_changetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="commentToUserId != null">
+        #{commentToUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commentState != null">
+        #{commentState,jdbcType=INTEGER},
+      </if>
+      <if test="commentCreatetime != null">
+        #{commentCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentChangetime != null">
+        #{commentChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Comment">
+    update db_comment
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="commentToUserId != null">
+        comment_to_user_id = #{commentToUserId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="commentState != null">
+        comment_state = #{commentState,jdbcType=INTEGER},
+      </if>
+      <if test="commentCreatetime != null">
+        comment_createtime = #{commentCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentChangetime != null">
+        comment_changetime = #{commentChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Comment">
+    update db_comment
+    set user_id = #{userId,jdbcType=INTEGER},
+      comment_to_user_id = #{commentToUserId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      comment_content = #{commentContent,jdbcType=VARCHAR},
+      comment_state = #{commentState,jdbcType=INTEGER},
+      comment_createtime = #{commentCreatetime,jdbcType=TIMESTAMP},
+      comment_changetime = #{commentChangetime,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

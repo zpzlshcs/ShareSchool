@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.EvaluateMapper">
+  <resultMap id="BaseResultMap" type="po.Evaluate">
+    <id column="evaluate_id" jdbcType="INTEGER" property="evaluateId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="evaluate_content" jdbcType="VARCHAR" property="evaluateContent" />
+    <result column="evaluate_type" jdbcType="INTEGER" property="evaluateType" />
+    <result column="evaluate_level" jdbcType="INTEGER" property="evaluateLevel" />
+    <result column="evaluate_user_id" jdbcType="INTEGER" property="evaluateUserId" />
+    <result column="evaluate_createtime" jdbcType="TIMESTAMP" property="evaluateCreatetime" />
+    <result column="evaluate_state" jdbcType="INTEGER" property="evaluateState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    evaluate_id, user_id, task_id, evaluate_content, evaluate_type, evaluate_level, evaluate_user_id, 
+    evaluate_createtime, evaluate_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_evaluate
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_evaluate
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Evaluate">
+    insert into db_evaluate (evaluate_id, user_id, task_id, 
+      evaluate_content, evaluate_type, evaluate_level, 
+      evaluate_user_id, evaluate_createtime, evaluate_state
+      )
+    values (#{evaluateId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+      #{evaluateContent,jdbcType=VARCHAR}, #{evaluateType,jdbcType=INTEGER}, #{evaluateLevel,jdbcType=INTEGER}, 
+      #{evaluateUserId,jdbcType=INTEGER}, #{evaluateCreatetime,jdbcType=TIMESTAMP}, #{evaluateState,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Evaluate">
+    insert into db_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="evaluateId != null">
+        evaluate_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="evaluateContent != null">
+        evaluate_content,
+      </if>
+      <if test="evaluateType != null">
+        evaluate_type,
+      </if>
+      <if test="evaluateLevel != null">
+        evaluate_level,
+      </if>
+      <if test="evaluateUserId != null">
+        evaluate_user_id,
+      </if>
+      <if test="evaluateCreatetime != null">
+        evaluate_createtime,
+      </if>
+      <if test="evaluateState != null">
+        evaluate_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="evaluateId != null">
+        #{evaluateId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateContent != null">
+        #{evaluateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateType != null">
+        #{evaluateType,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateLevel != null">
+        #{evaluateLevel,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateUserId != null">
+        #{evaluateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateCreatetime != null">
+        #{evaluateCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaluateState != null">
+        #{evaluateState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Evaluate">
+    update db_evaluate
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateContent != null">
+        evaluate_content = #{evaluateContent,jdbcType=VARCHAR},
+      </if>
+      <if test="evaluateType != null">
+        evaluate_type = #{evaluateType,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateLevel != null">
+        evaluate_level = #{evaluateLevel,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateUserId != null">
+        evaluate_user_id = #{evaluateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateCreatetime != null">
+        evaluate_createtime = #{evaluateCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evaluateState != null">
+        evaluate_state = #{evaluateState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Evaluate">
+    update db_evaluate
+    set user_id = #{userId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      evaluate_content = #{evaluateContent,jdbcType=VARCHAR},
+      evaluate_type = #{evaluateType,jdbcType=INTEGER},
+      evaluate_level = #{evaluateLevel,jdbcType=INTEGER},
+      evaluate_user_id = #{evaluateUserId,jdbcType=INTEGER},
+      evaluate_createtime = #{evaluateCreatetime,jdbcType=TIMESTAMP},
+      evaluate_state = #{evaluateState,jdbcType=INTEGER}
+    where evaluate_id = #{evaluateId,jdbcType=INTEGER}
+  </update>
+</mapper>

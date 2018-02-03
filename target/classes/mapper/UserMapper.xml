@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="po.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+    <result column="user_level" jdbcType="INTEGER" property="userLevel" />
+    <result column="user_createtime" jdbcType="TIMESTAMP" property="userCreatetime" />
+    <result column="user_lastlogintime" jdbcType="TIMESTAMP" property="userLastlogintime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_phone, user_password, user_level, user_createtime, user_lastlogintime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_user
+    where user_id = #{userPhone,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.User">
+    insert into db_user (user_id, user_phone, user_password, 
+      user_level, user_createtime, user_lastlogintime
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userPhone,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, 
+      #{userLevel,jdbcType=INTEGER}, #{userCreatetime,jdbcType=TIMESTAMP}, #{userLastlogintime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.User">
+    insert into db_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userPassword != null">
+        user_password,
+      </if>
+      <if test="userLevel != null">
+        user_level,
+      </if>
+      <if test="userCreatetime != null">
+        user_createtime,
+      </if>
+      <if test="userLastlogintime != null">
+        user_lastlogintime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userLevel != null">
+        #{userLevel,jdbcType=INTEGER},
+      </if>
+      <if test="userCreatetime != null">
+        #{userCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userLastlogintime != null">
+        #{userLastlogintime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.User">
+    update db_user
+    <set>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        user_password = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userLevel != null">
+        user_level = #{userLevel,jdbcType=INTEGER},
+      </if>
+      <if test="userCreatetime != null">
+        user_createtime = #{userCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userLastlogintime != null">
+        user_lastlogintime = #{userLastlogintime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.User">
+    update db_user
+    set user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_password = #{userPassword,jdbcType=VARCHAR},
+      user_level = #{userLevel,jdbcType=INTEGER},
+      user_createtime = #{userCreatetime,jdbcType=TIMESTAMP},
+      user_lastlogintime = #{userLastlogintime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <select id="selectUserSelective" parameterType="po.User" resultMap="BaseResultMap">
+      select * from db_user
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="userId != null">
+      user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="userPhone != null">
+      AND user_phone = #{userPhone,jdbcType=VARCHAR}
+      </if>
+      </trim>
+  </select>
+  <select id="selectUserListSelective" parameterType="po.User" resultMap="BaseResultMap">
+      select * from db_user
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="userLevel != null">
+      user_id = #{userLevel,jdbcType=INTEGER}
+      </if>
+      </trim>
+      order by user_createtime DESC
+  </select>
+  <select id="selectUserListSelectiveByDate" resultMap="BaseResultMap">
+      
+      select * from db_user
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="user.userLevel != null">
+      user_level = #{user.userLevel,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND user_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND user_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      order by user_createtime DESC
+  </select>
+</mapper>

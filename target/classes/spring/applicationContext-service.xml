@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="  
+           http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans.xsd  
+           http://www.springframework.org/schema/aop  
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd
+           http://www.springframework.org/schema/tx 
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+<!-- <bean id="testService" class="service.impl.CollectServiceImpl"/>          -->
+<bean id="collectService" class="service.impl.CollectServiceImpl"/>
+<bean id="commentService" class="service.impl.CommentServiceImpl"/>
+<bean id="followService" class="service.impl.FollowServiceImpl"/>
+<bean id="honestyService" class="service.impl.HonestyServiceImpl"/>
+<bean id="informationService" class="service.impl.InformationServiceImpl"/>
+<bean id="messageService" class="service.impl.MessageServiceImpl"/>
+<bean id="orderService" class="service.impl.OrderServiceImpl"/>
+<bean id="schoolService" class="service.impl.SchoolServiceImpl"/>
+<bean id="taskService" class="service.impl.TaskServiceImpl"/>
+<bean id="userService" class="service.impl.UserServiceImpl"/>
+<bean id="walletService" class="service.impl.WalletServiceImpl"/>
+</beans>

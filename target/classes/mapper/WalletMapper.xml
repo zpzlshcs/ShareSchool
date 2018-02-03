@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.WalletMapper">
+  <resultMap id="BaseResultMap" type="po.Wallet">
+    <id column="wallet_id" jdbcType="INTEGER" property="walletId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="wallet_rest" jdbcType="DOUBLE" property="walletRest" />
+    <result column="wallet_createtime" jdbcType="TIMESTAMP" property="walletCreatetime" />
+    <result column="wallet_changetime" jdbcType="TIMESTAMP" property="walletChangetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wallet_id, user_id, wallet_rest, wallet_createtime, wallet_changetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_wallet
+    where wallet_id = #{walletId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_wallet
+    where wallet_id = #{walletId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Wallet">
+    insert into db_wallet (wallet_id, user_id, wallet_rest, 
+      wallet_createtime, wallet_changetime)
+    values (#{walletId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{walletRest,jdbcType=DOUBLE}, 
+      #{walletCreatetime,jdbcType=TIMESTAMP}, #{walletChangetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Wallet">
+    insert into db_wallet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="walletId != null">
+        wallet_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="walletRest != null">
+        wallet_rest,
+      </if>
+      <if test="walletCreatetime != null">
+        wallet_createtime,
+      </if>
+      <if test="walletChangetime != null">
+        wallet_changetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="walletId != null">
+        #{walletId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="walletRest != null">
+        #{walletRest,jdbcType=DOUBLE},
+      </if>
+      <if test="walletCreatetime != null">
+        #{walletCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="walletChangetime != null">
+        #{walletChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Wallet">
+    update db_wallet
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="walletRest != null">
+        wallet_rest = #{walletRest,jdbcType=DOUBLE},
+      </if>
+      <if test="walletCreatetime != null">
+        wallet_createtime = #{walletCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="walletChangetime != null">
+        wallet_changetime = #{walletChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where wallet_id = #{walletId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Wallet">
+    update db_wallet
+    set user_id = #{userId,jdbcType=INTEGER},
+      wallet_rest = #{walletRest,jdbcType=DOUBLE},
+      wallet_createtime = #{walletCreatetime,jdbcType=TIMESTAMP},
+      wallet_changetime = #{walletChangetime,jdbcType=TIMESTAMP}
+    where wallet_id = #{walletId,jdbcType=INTEGER}
+  </update>
+  <select id="selectWalletSelective" parameterType="po.Wallet" resultMap="BaseResultMap">
+      select * from db_wallet
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="walletId != null">
+      wallet_id = #{walletId,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null">
+      AND user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      </trim>
+  </select>
+  <select id="selectWalletListSelective" parameterType="po.Wallet" resultMap="BaseResultMap">
+      select * from db_wallet order by wallet_createtime DESC
+  </select>
+  <select id="selectWalletListSelectiveByDate" resultMap="BaseResultMap">
+      
+      select * from db_wallet
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="startTime != null">
+      <![CDATA[
+      AND wallet_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND wallet_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      order by wallet_createtime DESC
+  </select>
+</mapper>

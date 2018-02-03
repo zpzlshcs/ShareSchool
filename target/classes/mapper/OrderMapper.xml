@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="po.Order">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_launch_user_id" jdbcType="INTEGER" property="orderLaunchUserId" />
+    <result column="order_receive_user_id" jdbcType="INTEGER" property="orderReceiveUserId" />
+    <result column="order_launch_schedule" jdbcType="INTEGER" property="orderLaunchSchedule" />
+    <result column="order_receive_schedule" jdbcType="INTEGER" property="orderReceiveSchedule" />
+    <result column="order_task_id" jdbcType="INTEGER" property="orderTaskId" />
+    <result column="order_describe" jdbcType="VARCHAR" property="orderDescribe" />
+    <result column="order_launch_evaluate_state" jdbcType="INTEGER" property="orderLaunchEvaluateState" />
+    <result column="order_receive_evaluate_state" jdbcType="INTEGER" property="orderReceiveEvaluateState" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_state" jdbcType="INTEGER" property="orderState" />
+    <result column="order_launch_state" jdbcType="INTEGER" property="orderLaunchState" />
+    <result column="order_receive_state" jdbcType="INTEGER" property="orderReceiveState" />
+    <result column="order_createtime" jdbcType="TIMESTAMP" property="orderCreatetime" />
+    <result column="order_complete_time" jdbcType="TIMESTAMP" property="orderCompleteTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    order_id, order_launch_user_id, order_receive_user_id, order_launch_schedule, order_receive_schedule, 
+    order_task_id, order_describe, order_launch_evaluate_state, order_receive_evaluate_state, 
+    order_price, order_state, order_launch_state, order_receive_state, order_createtime, 
+    order_complete_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_order
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Order">
+    insert into db_order (order_id, order_launch_user_id, order_receive_user_id, 
+      order_launch_schedule, order_receive_schedule, 
+      order_task_id, order_describe, order_launch_evaluate_state, 
+      order_receive_evaluate_state, order_price, order_state, 
+      order_launch_state, order_receive_state, order_createtime, 
+      order_complete_time)
+    values (#{orderId,jdbcType=INTEGER}, #{orderLaunchUserId,jdbcType=INTEGER}, #{orderReceiveUserId,jdbcType=INTEGER}, 
+      #{orderLaunchSchedule,jdbcType=INTEGER}, #{orderReceiveSchedule,jdbcType=INTEGER}, 
+      #{orderTaskId,jdbcType=INTEGER}, #{orderDescribe,jdbcType=VARCHAR}, #{orderLaunchEvaluateState,jdbcType=INTEGER}, 
+      #{orderReceiveEvaluateState,jdbcType=INTEGER}, #{orderPrice,jdbcType=DOUBLE}, #{orderState,jdbcType=INTEGER}, 
+      #{orderLaunchState,jdbcType=INTEGER}, #{orderReceiveState,jdbcType=INTEGER}, #{orderCreatetime,jdbcType=TIMESTAMP}, 
+      #{orderCompleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Order">
+    insert into db_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="orderLaunchUserId != null">
+        order_launch_user_id,
+      </if>
+      <if test="orderReceiveUserId != null">
+        order_receive_user_id,
+      </if>
+      <if test="orderLaunchSchedule != null">
+        order_launch_schedule,
+      </if>
+      <if test="orderReceiveSchedule != null">
+        order_receive_schedule,
+      </if>
+      <if test="orderTaskId != null">
+        order_task_id,
+      </if>
+      <if test="orderDescribe != null">
+        order_describe,
+      </if>
+      <if test="orderLaunchEvaluateState != null">
+        order_launch_evaluate_state,
+      </if>
+      <if test="orderReceiveEvaluateState != null">
+        order_receive_evaluate_state,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderState != null">
+        order_state,
+      </if>
+      <if test="orderLaunchState != null">
+        order_launch_state,
+      </if>
+      <if test="orderReceiveState != null">
+        order_receive_state,
+      </if>
+      <if test="orderCreatetime != null">
+        order_createtime,
+      </if>
+      <if test="orderCompleteTime != null">
+        order_complete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="orderLaunchUserId != null">
+        #{orderLaunchUserId,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveUserId != null">
+        #{orderReceiveUserId,jdbcType=INTEGER},
+      </if>
+      <if test="orderLaunchSchedule != null">
+        #{orderLaunchSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveSchedule != null">
+        #{orderReceiveSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="orderTaskId != null">
+        #{orderTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="orderDescribe != null">
+        #{orderDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLaunchEvaluateState != null">
+        #{orderLaunchEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveEvaluateState != null">
+        #{orderReceiveEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderState != null">
+        #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderLaunchState != null">
+        #{orderLaunchState,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveState != null">
+        #{orderReceiveState,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreatetime != null">
+        #{orderCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCompleteTime != null">
+        #{orderCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Order">
+    update db_order
+    <set>
+      <if test="orderLaunchUserId != null">
+        order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveUserId != null">
+        order_receive_user_id = #{orderReceiveUserId,jdbcType=INTEGER},
+      </if>
+      <if test="orderLaunchSchedule != null">
+        order_launch_schedule = #{orderLaunchSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveSchedule != null">
+        order_receive_schedule = #{orderReceiveSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="orderTaskId != null">
+        order_task_id = #{orderTaskId,jdbcType=INTEGER},
+      </if>
+      <if test="orderDescribe != null">
+        order_describe = #{orderDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="orderLaunchEvaluateState != null">
+        order_launch_evaluate_state = #{orderLaunchEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveEvaluateState != null">
+        order_receive_evaluate_state = #{orderReceiveEvaluateState,jdbcType=INTEGER},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="orderState != null">
+        order_state = #{orderState,jdbcType=INTEGER},
+      </if>
+      <if test="orderLaunchState != null">
+        order_launch_state = #{orderLaunchState,jdbcType=INTEGER},
+      </if>
+      <if test="orderReceiveState != null">
+        order_receive_state = #{orderReceiveState,jdbcType=INTEGER},
+      </if>
+      <if test="orderCreatetime != null">
+        order_createtime = #{orderCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCompleteTime != null">
+        order_complete_time = #{orderCompleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Order">
+    update db_order
+    set order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER},
+      order_receive_user_id = #{orderReceiveUserId,jdbcType=INTEGER},
+      order_launch_schedule = #{orderLaunchSchedule,jdbcType=INTEGER},
+      order_receive_schedule = #{orderReceiveSchedule,jdbcType=INTEGER},
+      order_task_id = #{orderTaskId,jdbcType=INTEGER},
+      order_describe = #{orderDescribe,jdbcType=VARCHAR},
+      order_launch_evaluate_state = #{orderLaunchEvaluateState,jdbcType=INTEGER},
+      order_receive_evaluate_state = #{orderReceiveEvaluateState,jdbcType=INTEGER},
+      order_price = #{orderPrice,jdbcType=DOUBLE},
+      order_state = #{orderState,jdbcType=INTEGER},
+      order_launch_state = #{orderLaunchState,jdbcType=INTEGER},
+      order_receive_state = #{orderReceiveState,jdbcType=INTEGER},
+      order_createtime = #{orderCreatetime,jdbcType=TIMESTAMP},
+      order_complete_time = #{orderCompleteTime,jdbcType=TIMESTAMP}
+    where order_id = #{orderId,jdbcType=INTEGER}
+  </update>
+  <select id="selectOrderSelective" parameterType="po.Order" resultMap="BaseResultMap">
+      select * from db_order
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="orderId != null">
+      order_id = #{orderId,jdbcType=INTEGER}
+      </if>
+      </trim>
+  </select>
+  <select id="selectOrderListSelective" parameterType="po.Order" resultMap="BaseResultMap">
+      select * from db_order 
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="orderLaunchUserId != null">
+      order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveUserId != null">
+      AND order_receive_user_id = #{orderReceiveUserId,jdbcType=INTEGER}
+      </if>
+      <if test="orderTaskId != null">
+      AND order_task_id = #{orderTaskId,jdbcType=INTEGER}
+      </if>
+      <if test="orderLaunchSchedule != null">
+      AND order_launch_schedule = #{orderLaunchSchedule,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveSchedule != null">
+      AND order_receive_schedule = #{orderReceiveSchedule,jdbcType=INTEGER}
+      </if>
+      <if test="orderLaunchEvaluateState != null">
+      AND order_launch_evaluate_state = #{orderLaunchEvaluateState,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveEvaluateState != null">
+      AND order_receive_evaluate_state = #{orderReceiveEvaluateState,jdbcType=INTEGER}
+      </if>
+      <if test="orderState != null">
+      AND order_state = #{orderState,jdbcType=INTEGER}
+      </if>
+      <if test="orderLaunchState != null">
+      AND order_launch_state = #{orderLaunchState,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveState != null">
+      AND order_receive_state = #{orderReceiveState,jdbcType=INTEGER}
+      </if>
+      </trim>
+      order by order_createtime DESC
+  </select>
+  <select id="selectOrderListSelectiveByDate" resultMap="BaseResultMap">
+      select * from db_order
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="orderLaunchUserId != null">
+      order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveUserId != null">
+      AND order_receive_user_id = #{orderReceiveUserId,jdbcType=INTEGER}
+      </if>
+      <if test="orderTaskId != null">
+      AND order_task_id = #{orderTaskId,jdbcType=INTEGER}
+      </if>
+      <if test="orderLaunchSchedule != null">
+      AND order_launch_schedule = #{orderLaunchSchedule,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveSchedule != null">
+      AND order_receive_schedule = #{orderReceiveSchedule,jdbcType=INTEGER}
+      </if>
+      <if test="orderLaunchEvaluateState != null">
+      AND order_launch_evaluate_state = #{orderLaunchEvaluateState,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveEvaluateState != null">
+      AND order_receive_evaluate_state = #{orderReceiveEvaluateState,jdbcType=INTEGER}
+      </if>
+      <if test="orderState != null">
+      AND order_state = #{orderState,jdbcType=INTEGER}
+      </if>
+      <if test="orderLaunchState != null">
+      AND order_launch_state = #{orderLaunchState,jdbcType=INTEGER}
+      </if>
+      <if test="orderReceiveState != null">
+      AND order_receive_state = #{orderReceiveState,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND order_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND order_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      order by order_createtime DESC
+  </select>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.HonestyMapper">
+  <resultMap id="BaseResultMap" type="po.Honesty">
+    <id column="honesty_id" jdbcType="INTEGER" property="honestyId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="honesty_score" jdbcType="INTEGER" property="honestyScore" />
+    <result column="honesty_createtime" jdbcType="TIMESTAMP" property="honestyCreatetime" />
+    <result column="honesty_changetime" jdbcType="TIMESTAMP" property="honestyChangetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    honesty_id, user_id, honesty_score, honesty_createtime, honesty_changetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_honesty
+    where honesty_id = #{honestyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_honesty
+    where honesty_id = #{honestyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Honesty">
+    insert into db_honesty (honesty_id, user_id, honesty_score, 
+      honesty_createtime, honesty_changetime
+      )
+    values (#{honestyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{honestyScore,jdbcType=INTEGER}, 
+      #{honestyCreatetime,jdbcType=TIMESTAMP}, #{honestyChangetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Honesty">
+    insert into db_honesty
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="honestyId != null">
+        honesty_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="honestyScore != null">
+        honesty_score,
+      </if>
+      <if test="honestyCreatetime != null">
+        honesty_createtime,
+      </if>
+      <if test="honestyChangetime != null">
+        honesty_changetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="honestyId != null">
+        #{honestyId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="honestyScore != null">
+        #{honestyScore,jdbcType=INTEGER},
+      </if>
+      <if test="honestyCreatetime != null">
+        #{honestyCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="honestyChangetime != null">
+        #{honestyChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Honesty">
+    update db_honesty
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="honestyScore != null">
+        honesty_score = #{honestyScore,jdbcType=INTEGER},
+      </if>
+      <if test="honestyCreatetime != null">
+        honesty_createtime = #{honestyCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="honestyChangetime != null">
+        honesty_changetime = #{honestyChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where honesty_id = #{honestyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Honesty">
+    update db_honesty
+    set user_id = #{userId,jdbcType=INTEGER},
+      honesty_score = #{honestyScore,jdbcType=INTEGER},
+      honesty_createtime = #{honestyCreatetime,jdbcType=TIMESTAMP},
+      honesty_changetime = #{honestyChangetime,jdbcType=TIMESTAMP}
+    where honesty_id = #{honestyId,jdbcType=INTEGER}
+  </update>
+</mapper>

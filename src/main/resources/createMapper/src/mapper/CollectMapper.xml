@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CollectMapper">
+  <resultMap id="BaseResultMap" type="po.Collect">
+    <id column="collect_id" jdbcType="INTEGER" property="collectId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="collect_state" jdbcType="INTEGER" property="collectState" />
+    <result column="collect_remarks" jdbcType="VARCHAR" property="collectRemarks" />
+    <result column="collect_createtime" jdbcType="TIMESTAMP" property="collectCreatetime" />
+    <result column="collect_changetime" jdbcType="TIMESTAMP" property="collectChangetime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    collect_id, user_id, task_id, collect_state, collect_remarks, collect_createtime, 
+    collect_changetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_collect
+    where collect_id = #{collectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_collect
+    where collect_id = #{collectId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Collect">
+    insert into db_collect (collect_id, user_id, task_id, 
+      collect_state, collect_remarks, collect_createtime, 
+      collect_changetime)
+    values (#{collectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+      #{collectState,jdbcType=INTEGER}, #{collectRemarks,jdbcType=VARCHAR}, #{collectCreatetime,jdbcType=TIMESTAMP}, 
+      #{collectChangetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Collect">
+    insert into db_collect
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="collectId != null">
+        collect_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="collectState != null">
+        collect_state,
+      </if>
+      <if test="collectRemarks != null">
+        collect_remarks,
+      </if>
+      <if test="collectCreatetime != null">
+        collect_createtime,
+      </if>
+      <if test="collectChangetime != null">
+        collect_changetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="collectId != null">
+        #{collectId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="collectState != null">
+        #{collectState,jdbcType=INTEGER},
+      </if>
+      <if test="collectRemarks != null">
+        #{collectRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="collectCreatetime != null">
+        #{collectCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectChangetime != null">
+        #{collectChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Collect">
+    update db_collect
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="collectState != null">
+        collect_state = #{collectState,jdbcType=INTEGER},
+      </if>
+      <if test="collectRemarks != null">
+        collect_remarks = #{collectRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="collectCreatetime != null">
+        collect_createtime = #{collectCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectChangetime != null">
+        collect_changetime = #{collectChangetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where collect_id = #{collectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Collect">
+    update db_collect
+    set user_id = #{userId,jdbcType=INTEGER},
+      task_id = #{taskId,jdbcType=INTEGER},
+      collect_state = #{collectState,jdbcType=INTEGER},
+      collect_remarks = #{collectRemarks,jdbcType=VARCHAR},
+      collect_createtime = #{collectCreatetime,jdbcType=TIMESTAMP},
+      collect_changetime = #{collectChangetime,jdbcType=TIMESTAMP}
+    where collect_id = #{collectId,jdbcType=INTEGER}
+  </update>
+</mapper>

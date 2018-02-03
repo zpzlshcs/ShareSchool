@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.PowerMapper">
+  <resultMap id="BaseResultMap" type="po.Power">
+    <id column="power_id" jdbcType="INTEGER" property="powerId" />
+    <result column="power_key" jdbcType="VARCHAR" property="powerKey" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="power_createtime" jdbcType="TIMESTAMP" property="powerCreatetime" />
+    <result column="power_endtime" jdbcType="TIMESTAMP" property="powerEndtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    power_id, power_key, user_id, power_createtime, power_endtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_power
+    where power_id = #{powerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_power
+    where power_id = #{powerId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Power">
+    insert into db_power (power_id, power_key, user_id, 
+      power_createtime, power_endtime)
+    values (#{powerId,jdbcType=INTEGER}, #{powerKey,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{powerCreatetime,jdbcType=TIMESTAMP}, #{powerEndtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Power">
+    insert into db_power
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="powerId != null">
+        power_id,
+      </if>
+      <if test="powerKey != null">
+        power_key,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="powerCreatetime != null">
+        power_createtime,
+      </if>
+      <if test="powerEndtime != null">
+        power_endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="powerId != null">
+        #{powerId,jdbcType=INTEGER},
+      </if>
+      <if test="powerKey != null">
+        #{powerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="powerCreatetime != null">
+        #{powerCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerEndtime != null">
+        #{powerEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Power">
+    update db_power
+    <set>
+      <if test="powerKey != null">
+        power_key = #{powerKey,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="powerCreatetime != null">
+        power_createtime = #{powerCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="powerEndtime != null">
+        power_endtime = #{powerEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where power_id = #{powerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Power">
+    update db_power
+    set power_key = #{powerKey,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      power_createtime = #{powerCreatetime,jdbcType=TIMESTAMP},
+      power_endtime = #{powerEndtime,jdbcType=TIMESTAMP}
+    where power_id = #{powerId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TaskMapper">
+  <resultMap id="BaseResultMap" type="po.Task">
+    <id column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="task_title" jdbcType="VARCHAR" property="taskTitle" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="task_user_name" jdbcType="VARCHAR" property="taskUserName" />
+    <result column="task_schedule" jdbcType="INTEGER" property="taskSchedule" />
+    <result column="task_state" jdbcType="INTEGER" property="taskState" />
+    <result column="task_is_delete" jdbcType="INTEGER" property="taskIsDelete" />
+    <result column="task_type" jdbcType="INTEGER" property="taskType" />
+    <result column="task_content" jdbcType="VARCHAR" property="taskContent" />
+    <result column="task_price" jdbcType="DOUBLE" property="taskPrice" />
+    <result column="task_counts" jdbcType="INTEGER" property="taskCounts" />
+    <result column="task_restcounts" jdbcType="INTEGER" property="taskRestcounts" />
+    <result column="task_img" jdbcType="VARCHAR" property="taskImg" />
+    <result column="task_createtime" jdbcType="TIMESTAMP" property="taskCreatetime" />
+    <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    task_id, task_title, user_id, task_user_name, task_schedule, task_state, task_is_delete, 
+    task_type, task_content, task_price, task_counts, task_restcounts, task_img, task_createtime, 
+    task_endtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from db_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Task">
+    insert into db_task (task_id, task_title, user_id, 
+      task_user_name, task_schedule, task_state, 
+      task_is_delete, task_type, task_content, 
+      task_price, task_counts, task_restcounts, 
+      task_img, task_createtime, task_endtime
+      )
+    values (#{taskId,jdbcType=INTEGER}, #{taskTitle,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{taskUserName,jdbcType=VARCHAR}, #{taskSchedule,jdbcType=INTEGER}, #{taskState,jdbcType=INTEGER}, 
+      #{taskIsDelete,jdbcType=INTEGER}, #{taskType,jdbcType=INTEGER}, #{taskContent,jdbcType=VARCHAR}, 
+      #{taskPrice,jdbcType=DOUBLE}, #{taskCounts,jdbcType=INTEGER}, #{taskRestcounts,jdbcType=INTEGER}, 
+      #{taskImg,jdbcType=VARCHAR}, #{taskCreatetime,jdbcType=TIMESTAMP}, #{taskEndtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Task">
+    insert into db_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="taskTitle != null">
+        task_title,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="taskUserName != null">
+        task_user_name,
+      </if>
+      <if test="taskSchedule != null">
+        task_schedule,
+      </if>
+      <if test="taskState != null">
+        task_state,
+      </if>
+      <if test="taskIsDelete != null">
+        task_is_delete,
+      </if>
+      <if test="taskType != null">
+        task_type,
+      </if>
+      <if test="taskContent != null">
+        task_content,
+      </if>
+      <if test="taskPrice != null">
+        task_price,
+      </if>
+      <if test="taskCounts != null">
+        task_counts,
+      </if>
+      <if test="taskRestcounts != null">
+        task_restcounts,
+      </if>
+      <if test="taskImg != null">
+        task_img,
+      </if>
+      <if test="taskCreatetime != null">
+        task_createtime,
+      </if>
+      <if test="taskEndtime != null">
+        task_endtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="taskTitle != null">
+        #{taskTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskUserName != null">
+        #{taskUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskSchedule != null">
+        #{taskSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="taskState != null">
+        #{taskState,jdbcType=INTEGER},
+      </if>
+      <if test="taskIsDelete != null">
+        #{taskIsDelete,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="taskContent != null">
+        #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskPrice != null">
+        #{taskPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="taskCounts != null">
+        #{taskCounts,jdbcType=INTEGER},
+      </if>
+      <if test="taskRestcounts != null">
+        #{taskRestcounts,jdbcType=INTEGER},
+      </if>
+      <if test="taskImg != null">
+        #{taskImg,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCreatetime != null">
+        #{taskCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskEndtime != null">
+        #{taskEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Task">
+    update db_task
+    <set>
+      <if test="taskTitle != null">
+        task_title = #{taskTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="taskUserName != null">
+        task_user_name = #{taskUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskSchedule != null">
+        task_schedule = #{taskSchedule,jdbcType=INTEGER},
+      </if>
+      <if test="taskState != null">
+        task_state = #{taskState,jdbcType=INTEGER},
+      </if>
+      <if test="taskIsDelete != null">
+        task_is_delete = #{taskIsDelete,jdbcType=INTEGER},
+      </if>
+      <if test="taskType != null">
+        task_type = #{taskType,jdbcType=INTEGER},
+      </if>
+      <if test="taskContent != null">
+        task_content = #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskPrice != null">
+        task_price = #{taskPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="taskCounts != null">
+        task_counts = #{taskCounts,jdbcType=INTEGER},
+      </if>
+      <if test="taskRestcounts != null">
+        task_restcounts = #{taskRestcounts,jdbcType=INTEGER},
+      </if>
+      <if test="taskImg != null">
+        task_img = #{taskImg,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCreatetime != null">
+        task_createtime = #{taskCreatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskEndtime != null">
+        task_endtime = #{taskEndtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Task">
+    update db_task
+    set task_title = #{taskTitle,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      task_user_name = #{taskUserName,jdbcType=VARCHAR},
+      task_schedule = #{taskSchedule,jdbcType=INTEGER},
+      task_state = #{taskState,jdbcType=INTEGER},
+      task_is_delete = #{taskIsDelete,jdbcType=INTEGER},
+      task_type = #{taskType,jdbcType=INTEGER},
+      task_content = #{taskContent,jdbcType=VARCHAR},
+      task_price = #{taskPrice,jdbcType=DOUBLE},
+      task_counts = #{taskCounts,jdbcType=INTEGER},
+      task_restcounts = #{taskRestcounts,jdbcType=INTEGER},
+      task_img = #{taskImg,jdbcType=VARCHAR},
+      task_createtime = #{taskCreatetime,jdbcType=TIMESTAMP},
+      task_endtime = #{taskEndtime,jdbcType=TIMESTAMP}
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </update>
+</mapper>
