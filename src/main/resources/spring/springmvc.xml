@@ -5,35 +5,57 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="  
            http://www.springframework.org/schema/beans  
-           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+           http://www.springframework.org/schema/beans/spring-beans.xsd  
            http://www.springframework.org/schema/aop  
-           http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/aop/spring-aop.xsd
            http://www.springframework.org/schema/mvc
-           http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd
            http://www.springframework.org/schema/tx 
-           http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+           http://www.springframework.org/schema/tx/spring-tx.xsd
            http://www.springframework.org/schema/context  
-           http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+           http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 配置Handler -->
 
 	<context:component-scan base-package="controller" />
 
 	<!-- 代替注解映射器与注解适配器 -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="false"> <!-- 不使用默认配置 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+			<!-- 配置解析json -->
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+					<property name="objectMapper">
+						<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+							<!-- 重设Date格式 -->
+							<property name="dateFormat">
+								<bean class="java.text.SimpleDateFormat">
+									<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+								</bean>
+							</property>
+							<!-- 为null不显示 -->
+							<property name="serializationInclusion">
+								<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+							</property>
+						</bean>
+					</property>
+				</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
 
-	<!-- 配置解析json -->
-	<bean
-		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean
-					class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-			</list>
-		</property>
-	</bean>
-	<!-- 解析jsp视图，默认使用jstl标签，classpath下要有jstl的包 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+	<!-- 异常处理器 -->
+	<bean class="exception.ErrorResolver" />
 
-
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*" />
+			<bean class="filter.HeaderTokenFilter" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

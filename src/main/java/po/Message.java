@@ -17,6 +17,8 @@ public class Message {
 
     private Integer messageType;
 
+    private Integer messageReceiveState;
+
     public Integer getMessageId() {
         return messageId;
     }
@@ -71,5 +73,13 @@ public class Message {
 
     public void setMessageType(Integer messageType) {
         this.messageType = messageType;
+    }
+
+    public Integer getMessageReceiveState() {
+        return messageReceiveState;
+    }
+
+    public void setMessageReceiveState(Integer messageReceiveState) {
+        this.messageReceiveState = messageReceiveState;
     }
 }

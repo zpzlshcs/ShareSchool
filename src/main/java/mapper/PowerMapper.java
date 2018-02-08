@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Power;
+import po.PowerCustom;
 
 public interface PowerMapper {
     int deleteByPrimaryKey(Integer powerId);
@@ -20,10 +21,10 @@ public interface PowerMapper {
 
     int updateByPrimaryKey(Power record);
 
-    List<Power> selectSelective(Power record);
+    List<PowerCustom> selectPowerSelective(Power record);
     
-    List<Power> selectPowerListSelective(Power record);
+    List<PowerCustom> selectPowerListSelective(Power record);
     
-    List<Power> selectPowerListSelectiveByDate
+    List<PowerCustom> selectPowerListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Power")Power record);
 }

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="po.Evaluate">
     <id column="evaluate_id" jdbcType="INTEGER" property="evaluateId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="evaluate_content" jdbcType="VARCHAR" property="evaluateContent" />
     <result column="evaluate_type" jdbcType="INTEGER" property="evaluateType" />
     <result column="evaluate_level" jdbcType="INTEGER" property="evaluateLevel" />
@@ -13,8 +13,49 @@
     <result column="evaluate_state" jdbcType="INTEGER" property="evaluateState" />
   </resultMap>
   <sql id="Base_Column_List">
-    evaluate_id, user_id, task_id, evaluate_content, evaluate_type, evaluate_level, evaluate_user_id, 
+    evaluate_id, user_id, order_id, evaluate_content, evaluate_type, evaluate_level, evaluate_user_id, 
     evaluate_createtime, evaluate_state
+  </sql>
+  <resultMap id="CustomResultMap" type="po.EvaluateCustom">
+    <id column="evaluate_id" jdbcType="INTEGER" property="evaluateId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="evaluate_content" jdbcType="VARCHAR" property="evaluateContent" />
+    <result column="evaluate_type" jdbcType="INTEGER" property="evaluateType" />
+    <result column="evaluate_level" jdbcType="INTEGER" property="evaluateLevel" />
+    <result column="evaluate_user_id" jdbcType="INTEGER" property="evaluateUserId" />
+    <result column="evaluate_createtime" jdbcType="TIMESTAMP" property="evaluateCreatetime" />
+    <result column="evaluate_state" jdbcType="INTEGER" property="evaluateState" />
+    
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="evaluate_user_phone" jdbcType="VARCHAR" property="evaluateUserPhone" />
+    <result column="evaluate_user_name" jdbcType="VARCHAR" property="evaluateUserName" />
+    
+    <result column="order_launch_user_id" jdbcType="INTEGER" property="orderLaunchUserId" />
+    <result column="order_receive_user_id" jdbcType="INTEGER" property="orderReceiveUserId" />
+    <result column="order_launch_schedule" jdbcType="INTEGER" property="orderLaunchSchedule" />
+    <result column="order_receive_schedule" jdbcType="INTEGER" property="orderReceiveSchedule" />
+    <result column="order_task_id" jdbcType="INTEGER" property="orderTaskId" />
+    <result column="order_describe" jdbcType="VARCHAR" property="orderDescribe" />
+    <result column="order_launch_evaluate_state" jdbcType="INTEGER" property="orderLaunchEvaluateState" />
+    <result column="order_receive_evaluate_state" jdbcType="INTEGER" property="orderReceiveEvaluateState" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_state" jdbcType="INTEGER" property="orderState" />
+    <result column="order_launch_state" jdbcType="INTEGER" property="orderLaunchState" />
+    <result column="order_receive_state" jdbcType="INTEGER" property="orderReceiveState" />
+    <result column="order_createtime" jdbcType="TIMESTAMP" property="orderCreatetime" />
+    <result column="order_complete_time" jdbcType="TIMESTAMP" property="orderCompleteTime" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    evaluate_id, user_id, task_id, evaluate_content, evaluate_type, evaluate_level, evaluate_user_id, 
+    evaluate_createtime, evaluate_state,
+    a.user_phone as user_phone, a.user_name as user_name,
+    b.user_phone as evaluate_user_phone, b.user_name as evaluate_user_name,
+    order_id, order_launch_user_id, order_receive_user_id, order_launch_schedule, order_receive_schedule, 
+    order_task_id, order_describe, order_launch_evaluate_state, order_receive_evaluate_state, 
+    order_price, order_state, order_launch_state, order_receive_state, order_createtime, 
+    order_complete_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,11 +68,11 @@
     where evaluate_id = #{evaluateId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="po.Evaluate">
-    insert into db_evaluate (evaluate_id, user_id, task_id, 
+    insert into db_evaluate (evaluate_id, user_id, order_id, 
       evaluate_content, evaluate_type, evaluate_level, 
       evaluate_user_id, evaluate_createtime, evaluate_state
       )
-    values (#{evaluateId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+    values (#{evaluateId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
       #{evaluateContent,jdbcType=VARCHAR}, #{evaluateType,jdbcType=INTEGER}, #{evaluateLevel,jdbcType=INTEGER}, 
       #{evaluateUserId,jdbcType=INTEGER}, #{evaluateCreatetime,jdbcType=TIMESTAMP}, #{evaluateState,jdbcType=INTEGER}
       )
@@ -45,8 +86,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="taskId != null">
-        task_id,
+      <if test="orderId != null">
+        order_id,
       </if>
       <if test="evaluateContent != null">
         evaluate_content,
@@ -74,8 +115,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
       </if>
       <if test="evaluateContent != null">
         #{evaluateContent,jdbcType=VARCHAR},
@@ -103,8 +144,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
       </if>
       <if test="evaluateContent != null">
         evaluate_content = #{evaluateContent,jdbcType=VARCHAR},
@@ -130,7 +171,7 @@
   <update id="updateByPrimaryKey" parameterType="po.Evaluate">
     update db_evaluate
     set user_id = #{userId,jdbcType=INTEGER},
-      task_id = #{taskId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
       evaluate_content = #{evaluateContent,jdbcType=VARCHAR},
       evaluate_type = #{evaluateType,jdbcType=INTEGER},
       evaluate_level = #{evaluateLevel,jdbcType=INTEGER},
@@ -139,4 +180,85 @@
       evaluate_state = #{evaluateState,jdbcType=INTEGER}
     where evaluate_id = #{evaluateId,jdbcType=INTEGER}
   </update>
+  <select id="selectEvaluateSelective" parameterType="po.Evaluate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_evaluate
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="evaluateId != null">
+      evaluate_id = #{evaluateId,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_evaluate.user_id
+      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
+      LEFT join db_order t on t.order_id=db_evaluate.order_id
+  </select>
+  <select id="selectEvaluateListSelective" parameterType="po.Evaluate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_evaluate 
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="userId != null">
+      user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="orderId != null">
+      AND order_id = #{taskId,jdbcType=INTEGER}
+      </if>
+      <if test="evaluateType != null">
+      AND evaluate_type = #{evaluateType,jdbcType=INTEGER}
+      </if>
+      <if test="evaluateLevel != null">
+      AND evaluate_level = #{evaluateLevel,jdbcType=INTEGER}
+      </if>
+      <if test="evaluateUserId != null">
+      AND evaluate_user_id = #{evaluateUserId,jdbcType=INTEGER}
+      </if>
+      <if test="evaluateState != null">
+      AND evaluate_state = #{evaluateState,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_evaluate.user_id
+      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
+      LEFT join db_order t on t.order_id=db_evaluate.order_id
+      order by evaluate_createtime DESC
+  </select>
+  <select id="selectEvaluateListSelectiveByDate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_evaluate
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="Evaluate.userId != null">
+      user_id = #{Evaluate.userId,jdbcType=INTEGER}
+      </if>
+      <if test="Evaluate.orderId != null">
+      AND order_id = #{Evaluate.taskId,jdbcType=INTEGER}
+      </if>
+      <if test="Evaluate.evaluateType != null">
+      AND evaluate_type = #{Evaluate.evaluateType,jdbcType=INTEGER}
+      </if>
+      <if test="Evaluate.evaluateLevel != null">
+      AND evaluate_level = #{Evaluate.evaluateLevel,jdbcType=INTEGER}
+      </if>
+      <if test="Evaluate.evaluateUserId != null">
+      AND evaluate_user_id = #{Evaluate.evaluateUserId,jdbcType=INTEGER}
+      </if>
+      <if test="Evaluate.evaluateState != null">
+      AND evaluate_state = #{Evaluate.evaluateState,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND evaluate_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND evaluate_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_evaluate.user_id
+      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
+      LEFT join db_order t on t.order_id=db_evaluate.order_id
+      order by evaluate_createtime DESC
+  </select>
 </mapper>

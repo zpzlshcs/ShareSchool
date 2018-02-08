@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Information;
+import po.InformationCustom;
 
 public interface InformationMapper {
     int deleteByPrimaryKey(Integer infoId);
@@ -20,10 +21,10 @@ public interface InformationMapper {
 
     int updateByPrimaryKey(Information record);
 
-    List<Information> selectInformationSelective(Information record);
+    List<InformationCustom> selectInformationSelective(Information record);
     
-    List<Information> selectInformationListSelective(Information record);
+    List<InformationCustom> selectInformationListSelective(Information record);
     
-    List<Information> selectInformationListSelectiveByDate
+    List<InformationCustom> selectInformationListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Information")Information record);
 }

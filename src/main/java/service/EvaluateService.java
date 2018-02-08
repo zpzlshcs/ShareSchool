@@ -18,6 +18,7 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.EvaluateCustom;
 import utils.ResultBean;
 import utils.ResultList;
@@ -25,18 +26,18 @@ import utils.ResultList;
 public interface EvaluateService {
 
 	//发表评价
-	ResultBean<EvaluateCustom> insert1(EvaluateCustom evaluateCustom);
+	ResultBean<EvaluateCustom> insert1(EvaluateCustom evaluateCustom) throws CustomException;
 	//发表追评
-	ResultBean<EvaluateCustom> insert2(EvaluateCustom evaluateCustom);
+	ResultBean<EvaluateCustom> insert2(EvaluateCustom evaluateCustom) throws CustomException;
 	//删除评价
-	ResultBean<EvaluateCustom> delete(Integer evaluateId);
+	ResultBean<EvaluateCustom> delete(EvaluateCustom evaluateCustom) throws CustomException;
 	//根据条件查找评价
-	ResultBean<EvaluateCustom> getBySelective(EvaluateCustom EvaluateCustom);
+	ResultBean<EvaluateCustom> getEvaluateSelective(EvaluateCustom EvaluateCustom) throws CustomException;
 	//根据条件获取评价列表
 	ResultBean<ResultList<EvaluateCustom>> getEvaluateListSelective
-	(EvaluateCustom EvaluateCustom,int pageSize,int pageNum);
+	(EvaluateCustom EvaluateCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取评价列表
 	ResultBean<ResultList<EvaluateCustom>> getEvaluateListSelectiveByTime
-	(EvaluateCustom EvaluateCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(EvaluateCustom EvaluateCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 	
 }

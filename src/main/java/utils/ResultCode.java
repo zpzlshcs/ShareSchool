@@ -9,6 +9,10 @@ public class ResultCode {
 			return "创建对象冲突";
 		case 103:
 			return "权限等级不够";
+		case 104:
+			return "没有相应数据";
+		case 105:
+			return "更新相应数据冲突";
 		case 999:
 			return "请求成功";
 		default:

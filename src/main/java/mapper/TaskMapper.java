@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Task;
+import po.TaskCustom;
 
 public interface TaskMapper {
     int deleteByPrimaryKey(Integer taskId);
@@ -20,10 +21,10 @@ public interface TaskMapper {
 
     int updateByPrimaryKey(Task record);
 
-    List<Task> selectSelective(Task record);
+    List<TaskCustom> selectTaskSelective(Task record);
     
-    List<Task> selectTaskListSelective(Task record);
+    List<TaskCustom> selectTaskListSelective(Task record);
     
-    List<Task> selectTaskListSelectiveByDate
+    List<TaskCustom> selectTaskListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Task")Task record);
 }

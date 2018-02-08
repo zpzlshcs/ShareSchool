@@ -18,6 +18,19 @@
     info_id, user_id, info_sex, info_realname, info_iconimg, info_school_id, info_introduce, 
     info_nickname, info_birthday, info_createtime, info_changetime
   </sql>
+  <resultMap id="CustomResultMap" type="po.InformationCustom">
+    <id column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="info_sex" jdbcType="INTEGER" property="infoSex" />
+    <result column="info_realname" jdbcType="VARCHAR" property="infoRealname" />
+    <result column="info_iconimg" jdbcType="VARCHAR" property="infoIconimg" />
+    <result column="info_school_id" jdbcType="INTEGER" property="infoSchoolId" />
+    <result column="info_introduce" jdbcType="VARCHAR" property="infoIntroduce" />
+    <result column="info_nickname" jdbcType="VARCHAR" property="infoNickname" />
+    <result column="info_birthday" jdbcType="TIMESTAMP" property="infoBirthday" />
+    <result column="info_createtime" jdbcType="TIMESTAMP" property="infoCreatetime" />
+    <result column="info_changetime" jdbcType="TIMESTAMP" property="infoChangetime" />
+  </resultMap>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -161,4 +174,67 @@
       info_changetime = #{infoChangetime,jdbcType=TIMESTAMP}
     where info_id = #{infoId,jdbcType=INTEGER}
   </update>
+  <select id="selectInformationSelective" parameterType="po.Information" resultMap="CustomResultMap">
+      select * from db_information
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="infoId != null">
+      info_id = #{infoId,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      </trim>
+  </select>
+  <select id="selectInformationListSelective" parameterType="po.Information" resultMap="CustomResultMap">
+      select * from db_information 
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="infoSex != null">
+      info_sex = #{infoSex,jdbcType=INTEGER}
+      </if>
+      <if test="infoRealname != null">
+      AND info_realname = #{infoRealname,jdbcType=INTEGER}
+      </if>
+      <if test="infoSchoolId != null">
+      AND info_school_id = #{infoSchoolId,jdbcType=INTEGER}
+      </if>
+      <if test="infoNickname != null">
+      AND info_nickname = #{infoNickname,jdbcType=VARCHAR}
+      </if>
+      <if test="infoBirthday != null">
+      AND info_birthday = #{infoBirthday,jdbcType=TIMESTAMP}
+      </if>
+      </trim>
+      order by info_createtime DESC
+  </select>
+  <select id="selectInformationListSelectiveByDate" resultMap="CustomResultMap">
+      select * from db_information
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="Information.infoSex != null">
+      info_sex = #{Information.infoSex,jdbcType=INTEGER}
+      </if>
+      <if test="Information.infoRealname != null">
+      AND info_realname = #{Information.infoRealname,jdbcType=INTEGER}
+      </if>
+      <if test="Information.infoSchoolId != null">
+      AND info_school_id = #{Information.infoSchoolId,jdbcType=INTEGER}
+      </if>
+      <if test="Information.infoNickname != null">
+      AND info_nickname = #{Information.infoNickname,jdbcType=VARCHAR}
+      </if>
+      <if test="Information.infoBirthday != null">
+      AND info_birthday = #{Information.infoBirthday,jdbcType=TIMESTAMP}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND info_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND info_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      order by info_createtime DESC
+  </select>
 </mapper>

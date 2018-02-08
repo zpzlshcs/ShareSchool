@@ -11,6 +11,13 @@
   <sql id="Base_Column_List">
     wallet_id, user_id, wallet_rest, wallet_createtime, wallet_changetime
   </sql>
+  <resultMap id="CustomResultMap" type="po.WalletCustom">
+    <id column="wallet_id" jdbcType="INTEGER" property="walletId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="wallet_rest" jdbcType="DOUBLE" property="walletRest" />
+    <result column="wallet_createtime" jdbcType="TIMESTAMP" property="walletCreatetime" />
+    <result column="wallet_changetime" jdbcType="TIMESTAMP" property="walletChangetime" />
+  </resultMap>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -90,7 +97,7 @@
       wallet_changetime = #{walletChangetime,jdbcType=TIMESTAMP}
     where wallet_id = #{walletId,jdbcType=INTEGER}
   </update>
-  <select id="selectWalletSelective" parameterType="po.Wallet" resultMap="BaseResultMap">
+  <select id="selectWalletSelective" parameterType="po.Wallet" resultMap="CustomResultMap">
       select * from db_wallet
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="walletId != null">
@@ -101,10 +108,10 @@
       </if>
       </trim>
   </select>
-  <select id="selectWalletListSelective" parameterType="po.Wallet" resultMap="BaseResultMap">
+  <select id="selectWalletListSelective" parameterType="po.Wallet" resultMap="CustomResultMap">
       select * from db_wallet order by wallet_createtime DESC
   </select>
-  <select id="selectWalletListSelectiveByDate" resultMap="BaseResultMap">
+  <select id="selectWalletListSelectiveByDate" resultMap="CustomResultMap">
       
       select * from db_wallet
       <trim prefix="WHERE" prefixOverrides="AND |OR ">

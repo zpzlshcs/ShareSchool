@@ -18,21 +18,22 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.HonestyCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface HonestyService {
 	//新增（用户注册时创建）
-	void insert(Integer userId);
+	ResultBean<HonestyCustom> insert(Integer userId) throws CustomException;
 	//修改分数
-	void changeScore(double honestyScore);
+	ResultBean<HonestyCustom> changeScore(HonestyCustom honestyCustom) throws CustomException;
 	//根据条件查找诚信
-	ResultBean<HonestyCustom> getBySelective(HonestyCustom honestyCustom);
+	ResultBean<HonestyCustom> getHonestySelective(HonestyCustom honestyCustom) throws CustomException;
 	//根据条件获取诚信列表
 	ResultBean<ResultList<HonestyCustom>> getHonestyListSelective
-	(HonestyCustom honestyCustom,int pageSize,int pageNum);
+	(HonestyCustom honestyCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取诚信列表
 	ResultBean<ResultList<HonestyCustom>> getHonestyListSelectiveByTime
-	(HonestyCustom honestyCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(HonestyCustom honestyCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 }

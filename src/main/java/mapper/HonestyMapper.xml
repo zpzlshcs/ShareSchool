@@ -11,6 +11,13 @@
   <sql id="Base_Column_List">
     honesty_id, user_id, honesty_score, honesty_createtime, honesty_changetime
   </sql>
+  <resultMap id="CustomResultMap" type="po.HonestyCustom">
+    <id column="honesty_id" jdbcType="INTEGER" property="honestyId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="honesty_score" jdbcType="INTEGER" property="honestyScore" />
+    <result column="honesty_createtime" jdbcType="TIMESTAMP" property="honestyCreatetime" />
+    <result column="honesty_changetime" jdbcType="TIMESTAMP" property="honestyChangetime" />
+  </resultMap>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -92,4 +99,35 @@
       honesty_changetime = #{honestyChangetime,jdbcType=TIMESTAMP}
     where honesty_id = #{honestyId,jdbcType=INTEGER}
   </update>
+  <select id="selectHonestySelective" parameterType="po.Honesty" resultMap="CustomResultMap">
+      select * from db_honesty
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="honestyId != null">
+      honesty_id = #{honestyId,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      </trim>
+  </select>
+  <select id="selectHonestyListSelective" parameterType="po.Honesty" resultMap="CustomResultMap">
+      select * from db_honesty 
+      order by honesty_id DESC
+  </select>
+  <select id="selectHonestyListSelectiveByDate" resultMap="CustomResultMap">
+      select * from db_honesty
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="startTime != null">
+      <![CDATA[
+      AND honesty_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND honesty_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      order by honesty_createtime DESC
+  </select>
 </mapper>

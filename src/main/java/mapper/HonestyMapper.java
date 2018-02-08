@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Honesty;
+import po.HonestyCustom;
 
 public interface HonestyMapper {
     int deleteByPrimaryKey(Integer honestyId);
@@ -20,10 +21,10 @@ public interface HonestyMapper {
 
     int updateByPrimaryKey(Honesty record);
 
-    List<Honesty> selectHonestySelective(Honesty record);
+    List<HonestyCustom> selectHonestySelective(Honesty record);
     
-    List<Honesty> selectHonestyListSelective(Honesty record);
+    List<HonestyCustom> selectHonestyListSelective(Honesty record);
     
-    List<Honesty> selectHonestyListSelectiveByDate
+    List<HonestyCustom> selectHonestyListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Honesty")Honesty record);
 }

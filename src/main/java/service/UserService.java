@@ -18,31 +18,32 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.UserCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface UserService {
 	//注册
-	ResultBean<UserCustom> register(UserCustom user);
+	ResultBean<UserCustom> register(UserCustom user) throws CustomException;
 	//销户
-	ResultBean<UserCustom> delete(Integer user_id);
+	ResultBean<UserCustom> delete(Integer user_id)  throws CustomException;
 	//登陆
-	ResultBean<UserCustom> login(String phone,String password);
+	ResultBean<UserCustom> login(String phone,String password) throws CustomException;
 	//修改密码
-	ResultBean<UserCustom> changePassword(String phone,String newpassword);
+	ResultBean<UserCustom> changePassword(String phone,String newpassword) throws CustomException;
 	//提升为大咖
-	ResultBean<UserCustom> changeLevel(Integer user);
+	ResultBean<UserCustom> changeLevel(UserCustom user) throws CustomException;
 	
 	
 	//根据条件获取用户
-	ResultBean<UserCustom> getUserSelective(UserCustom userCustom);
+	ResultBean<UserCustom> getUserSelective(UserCustom userCustom) throws CustomException;
 	//根据条件获取用户列表
 	ResultBean<ResultList<UserCustom>> getUserListSelective
-	(UserCustom userCustom,int pageSize,int pageNum);
+	(UserCustom userCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取用户列表
 	ResultBean<ResultList<UserCustom>> getUserListSelectiveByTime
-	(UserCustom userCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(UserCustom userCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 	
 	
 	

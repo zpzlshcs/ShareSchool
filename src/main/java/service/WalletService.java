@@ -2,6 +2,7 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.WalletCustom;
 import utils.ResultBean;
 import utils.ResultList;
@@ -24,17 +25,17 @@ import utils.ResultList;
  */
 public interface WalletService {
 	//创建钱包(注册时创建)
-	void insert(WalletCustom walletCustom);
+	ResultBean<WalletCustom> insert(WalletCustom walletCustom) throws CustomException;
 	//删除钱包
-	ResultBean<WalletCustom> insert(Integer walletId);
+	ResultBean<WalletCustom> delete(Integer walletId) throws CustomException;
 	//修改钱包
-	ResultBean<WalletCustom> update(WalletCustom walletCustom);
+	ResultBean<WalletCustom> update(WalletCustom walletCustom) throws CustomException;
 	//根据条件获取钱包
-	ResultBean<WalletCustom> getWalletSelective(WalletCustom walletCustom);
+	ResultBean<WalletCustom> getWalletSelective(WalletCustom walletCustom) throws CustomException;
 	//根据条件获取钱包列表
 	ResultBean<ResultList<WalletCustom>> getWalletListSelective
-	(WalletCustom walletCustom,int pageSize,int pageNum);
+	(WalletCustom walletCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取钱包列表
 	ResultBean<ResultList<WalletCustom>> getWalletListSelectiveByTime
-	(WalletCustom walletCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(WalletCustom walletCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 }

@@ -18,22 +18,23 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.InformationCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface InformationService {
 	//创建（用户注册时）
-	void insert(Integer userId);
+	ResultBean<InformationCustom> insert(Integer userId) throws CustomException;
 	//更新个人信息
-	ResultBean<InformationCustom> update(InformationCustom informationCustom);
+	ResultBean<InformationCustom> update(InformationCustom informationCustom) throws CustomException;
 	//根据条件查找个人信息
-	ResultBean<InformationCustom> getBySelective(InformationCustom informationCustom);
+	ResultBean<InformationCustom> getInformationSelective(InformationCustom informationCustom) throws CustomException;
 	//根据条件获取个人信息列表
 	ResultBean<ResultList<InformationCustom>> getInformationListSelective
-	(InformationCustom informationCustom,int pageSize,int pageNum);
+	(InformationCustom informationCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取个人信息列表
 	ResultBean<ResultList<InformationCustom>> getInformationListSelectiveByTime
-	(InformationCustom informationCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(InformationCustom informationCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 	
 }

@@ -24,6 +24,54 @@
     order_price, order_state, order_launch_state, order_receive_state, order_createtime, 
     order_complete_time
   </sql>
+  <resultMap id="CustomResultMap" type="po.OrderCustom">
+    <id column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_launch_user_id" jdbcType="INTEGER" property="orderLaunchUserId" />
+    <result column="order_receive_user_id" jdbcType="INTEGER" property="orderReceiveUserId" />
+    <result column="order_launch_schedule" jdbcType="INTEGER" property="orderLaunchSchedule" />
+    <result column="order_receive_schedule" jdbcType="INTEGER" property="orderReceiveSchedule" />
+    <result column="order_task_id" jdbcType="INTEGER" property="orderTaskId" />
+    <result column="order_describe" jdbcType="VARCHAR" property="orderDescribe" />
+    <result column="order_launch_evaluate_state" jdbcType="INTEGER" property="orderLaunchEvaluateState" />
+    <result column="order_receive_evaluate_state" jdbcType="INTEGER" property="orderReceiveEvaluateState" />
+    <result column="order_price" jdbcType="DOUBLE" property="orderPrice" />
+    <result column="order_state" jdbcType="INTEGER" property="orderState" />
+    <result column="order_launch_state" jdbcType="INTEGER" property="orderLaunchState" />
+    <result column="order_receive_state" jdbcType="INTEGER" property="orderReceiveState" />
+    <result column="order_createtime" jdbcType="TIMESTAMP" property="orderCreatetime" />
+    <result column="order_complete_time" jdbcType="TIMESTAMP" property="orderCompleteTime" />
+    
+    <result column="order_launch_user_phone" jdbcType="VARCHAR" property="orderLaunchUserPhone" />
+    <result column="order_launch_user_name" jdbcType="VARCHAR" property="orderLaunchUserName" />
+    <result column="order_receive_user_phone" jdbcType="VARCHAR" property="orderReceiveUserPhone" />
+    <result column="order_receive_user_name" jdbcType="VARCHAR" property="orderReceiveUserName" />
+    
+    <result column="task_title" jdbcType="VARCHAR" property="taskTitle" />
+    <result column="task_user_id" jdbcType="INTEGER" property="taskUserId" />
+    <result column="task_user_name" jdbcType="VARCHAR" property="taskUserName" />
+    <result column="task_schedule" jdbcType="INTEGER" property="taskSchedule" />
+    <result column="task_state" jdbcType="INTEGER" property="taskState" />
+    <result column="task_is_delete" jdbcType="INTEGER" property="taskIsDelete" />
+    <result column="task_type" jdbcType="INTEGER" property="taskType" />
+    <result column="task_content" jdbcType="VARCHAR" property="taskContent" />
+    <result column="task_price" jdbcType="DOUBLE" property="taskPrice" />
+    <result column="task_counts" jdbcType="INTEGER" property="taskCounts" />
+    <result column="task_restcounts" jdbcType="INTEGER" property="taskRestcounts" />
+    <result column="task_img" jdbcType="VARCHAR" property="taskImg" />
+    <result column="task_createtime" jdbcType="TIMESTAMP" property="taskCreatetime" />
+    <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndtime" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    order_id, order_launch_user_id, order_receive_user_id, order_launch_schedule, order_receive_schedule, 
+    order_task_id, order_describe, order_launch_evaluate_state, order_receive_evaluate_state, 
+    order_price, order_state, order_launch_state, order_receive_state, order_createtime, 
+    order_complete_time,
+    a.user_phone as order_launch_user_phone, a.user_name as order_launch_user_name,
+    b.user_phone as order_receive_user_phone, b.user_name as order_receive_user_name,
+    task_title, t.user_id as task_user_id, task_user_name, task_schedule, task_state, 
+    task_type, task_content, task_price, task_counts, task_restcounts, task_img, task_createtime, 
+    task_endtime
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -211,16 +259,23 @@
       order_complete_time = #{orderCompleteTime,jdbcType=TIMESTAMP}
     where order_id = #{orderId,jdbcType=INTEGER}
   </update>
-  <select id="selectOrderSelective" parameterType="po.Order" resultMap="BaseResultMap">
-      select * from db_order
+  <select id="selectOrderSelective" parameterType="po.Order" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_order
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="orderId != null">
       order_id = #{orderId,jdbcType=INTEGER}
       </if>
       </trim>
+      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
+      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
+      LEFT join db_task t on t.user_id=db_order.order_task_id
   </select>
-  <select id="selectOrderListSelective" parameterType="po.Order" resultMap="BaseResultMap">
-      select * from db_order 
+  <select id="selectOrderListSelective" parameterType="po.Order" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_order 
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="orderLaunchUserId != null">
       order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER}
@@ -253,40 +308,45 @@
       AND order_receive_state = #{orderReceiveState,jdbcType=INTEGER}
       </if>
       </trim>
+      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
+      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
+      LEFT join db_task t on t.user_id=db_order.order_task_id
       order by order_createtime DESC
   </select>
-  <select id="selectOrderListSelectiveByDate" resultMap="BaseResultMap">
-      select * from db_order
+  <select id="selectOrderListSelectiveByDate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_order
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="orderLaunchUserId != null">
-      order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER}
+      <if test="Order.orderLaunchUserId != null">
+      order_launch_user_id = #{Order.orderLaunchUserId,jdbcType=INTEGER}
       </if>
-      <if test="orderReceiveUserId != null">
-      AND order_receive_user_id = #{orderReceiveUserId,jdbcType=INTEGER}
+      <if test="Order.orderReceiveUserId != null">
+      AND order_receive_user_id = #{Order.orderReceiveUserId,jdbcType=INTEGER}
       </if>
-      <if test="orderTaskId != null">
-      AND order_task_id = #{orderTaskId,jdbcType=INTEGER}
+      <if test="Order.orderTaskId != null">
+      AND order_task_id = #{Order.orderTaskId,jdbcType=INTEGER}
       </if>
-      <if test="orderLaunchSchedule != null">
-      AND order_launch_schedule = #{orderLaunchSchedule,jdbcType=INTEGER}
+      <if test="Order.orderLaunchSchedule != null">
+      AND order_launch_schedule = #{Order.orderLaunchSchedule,jdbcType=INTEGER}
       </if>
-      <if test="orderReceiveSchedule != null">
-      AND order_receive_schedule = #{orderReceiveSchedule,jdbcType=INTEGER}
+      <if test="Order.orderReceiveSchedule != null">
+      AND order_receive_schedule = #{Order.orderReceiveSchedule,jdbcType=INTEGER}
       </if>
-      <if test="orderLaunchEvaluateState != null">
-      AND order_launch_evaluate_state = #{orderLaunchEvaluateState,jdbcType=INTEGER}
+      <if test="Order.orderLaunchEvaluateState != null">
+      AND order_launch_evaluate_state = #{Order.orderLaunchEvaluateState,jdbcType=INTEGER}
       </if>
-      <if test="orderReceiveEvaluateState != null">
-      AND order_receive_evaluate_state = #{orderReceiveEvaluateState,jdbcType=INTEGER}
+      <if test="Order.orderReceiveEvaluateState != null">
+      AND order_receive_evaluate_state = #{Order.orderReceiveEvaluateState,jdbcType=INTEGER}
       </if>
-      <if test="orderState != null">
-      AND order_state = #{orderState,jdbcType=INTEGER}
+      <if test="Order.orderState != null">
+      AND order_state = #{Order.orderState,jdbcType=INTEGER}
       </if>
-      <if test="orderLaunchState != null">
-      AND order_launch_state = #{orderLaunchState,jdbcType=INTEGER}
+      <if test="Order.orderLaunchState != null">
+      AND order_launch_state = #{Order.orderLaunchState,jdbcType=INTEGER}
       </if>
-      <if test="orderReceiveState != null">
-      AND order_receive_state = #{orderReceiveState,jdbcType=INTEGER}
+      <if test="Order.orderReceiveState != null">
+      AND order_receive_state = #{Order.orderReceiveState,jdbcType=INTEGER}
       </if>
       <if test="startTime != null">
       <![CDATA[
@@ -299,6 +359,9 @@
       ]]>
       </if>
       </trim>
+      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
+      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
+      LEFT join db_task t on t.user_id=db_order.order_task_id
       order by order_createtime DESC
   </select>
 </mapper>

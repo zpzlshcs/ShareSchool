@@ -11,6 +11,45 @@
     <result column="comment_createtime" jdbcType="TIMESTAMP" property="commentCreatetime" />
     <result column="comment_changetime" jdbcType="TIMESTAMP" property="commentChangetime" />
   </resultMap>
+  <resultMap id="CustomResultMap" type="po.CommentCustom">
+    <id column="comment_id" jdbcType="INTEGER" property="commentId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="comment_to_user_id" jdbcType="INTEGER" property="commentToUserId" />
+    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="comment_content" jdbcType="VARCHAR" property="commentContent" />
+    <result column="comment_state" jdbcType="INTEGER" property="commentState" />
+    <result column="comment_createtime" jdbcType="TIMESTAMP" property="commentCreatetime" />
+    <result column="comment_changetime" jdbcType="TIMESTAMP" property="commentChangetime" />
+    
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="comment_to_user_phone" jdbcType="VARCHAR" property="commentToUserPhone" />
+    <result column="comment_to_user_name" jdbcType="VARCHAR" property="commentToUserName" />
+    
+    <result column="task_title" jdbcType="VARCHAR" property="taskTitle" />
+    <result column="task_user_id" jdbcType="INTEGER" property="taskUserId" />
+    <result column="task_user_name" jdbcType="VARCHAR" property="taskUserName" />
+    <result column="task_schedule" jdbcType="INTEGER" property="taskSchedule" />
+    <result column="task_state" jdbcType="INTEGER" property="taskState" />
+    <result column="task_is_delete" jdbcType="INTEGER" property="taskIsDelete" />
+    <result column="task_type" jdbcType="INTEGER" property="taskType" />
+    <result column="task_content" jdbcType="VARCHAR" property="taskContent" />
+    <result column="task_price" jdbcType="DOUBLE" property="taskPrice" />
+    <result column="task_counts" jdbcType="INTEGER" property="taskCounts" />
+    <result column="task_restcounts" jdbcType="INTEGER" property="taskRestcounts" />
+    <result column="task_img" jdbcType="VARCHAR" property="taskImg" />
+    <result column="task_createtime" jdbcType="TIMESTAMP" property="taskCreatetime" />
+    <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndtime" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    comment_id, db_comment.user_id, db_comment.comment_to_user_id, db_comment.task_id, comment_content, comment_state, 
+    comment_createtime, comment_changetime,
+    a.user_phone as user_phone, a.user_name as user_name,
+    b.user_phone as comment_to_user_phone, b.user_name as comment_to_user_name,
+    task_title, t.user_id as task_user_id, task_user_name, task_schedule, task_state, 
+    task_type, task_content, task_price, task_counts, task_restcounts, task_img, task_createtime, 
+    task_endtime
+  </sql>
   <sql id="Base_Column_List">
     comment_id, user_id, comment_to_user_id, task_id, comment_content, comment_state, 
     comment_createtime, comment_changetime
@@ -128,4 +167,73 @@
       comment_changetime = #{commentChangetime,jdbcType=TIMESTAMP}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
+  <select id="selectCommentSelective" parameterType="po.Comment" resultMap="CustomResultMap">
+      select 
+      <include refid="Base_getAll_List" />
+      from db_comment
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="commentId != null">
+      comment_id = #{commentId,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_comment.user_id
+      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
+      LEFT join db_task t on t.user_id=db_comment.task_id
+  </select>
+  <select id="selectCommentListSelective" parameterType="po.Comment" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_comment
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="userId != null">
+      user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="commentToUserId != null">
+      AND comment_to_user_id = #{commentToUserId,jdbcType=INTEGER}
+      </if>
+      <if test="taskId != null">
+      AND task_id = #{taskId,jdbcType=INTEGER}
+      </if>
+      <if test="commentState != null">
+      AND comment_state = #{commentState,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_comment.user_id
+      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
+      LEFT join db_task t on t.user_id=db_comment.task_id
+      order by comment_createtime DESC
+  </select>
+  <select id="selectCommentListSelectiveByDate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_comment
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="Comment.userId != null">
+      user_id = #{Comment.userId,jdbcType=INTEGER}
+      </if>
+      <if test="Comment.commentToUserId != null">
+      AND comment_to_user_id = #{Comment.commentToUserId,jdbcType=INTEGER}
+      </if>
+      <if test="Comment.taskId != null">
+      AND task_id = #{Comment.taskId,jdbcType=INTEGER}
+      </if>
+      <if test="Comment.commentState != null">
+      AND comment_state = #{Comment.commentState,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND comment_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND comment_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_comment.user_id
+      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
+      LEFT join db_task t on t.user_id=db_comment.task_id
+      order by comment_createtime DESC
+  </select>
 </mapper>

@@ -18,23 +18,24 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.CommentCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface CommentService {
 	// 新增评论
-	ResultBean<CommentCustom> insert(CommentCustom commentCustom);
+	ResultBean<CommentCustom> insert(CommentCustom commentCustom) throws CustomException;
 	// 删除评论
-	ResultBean<CommentCustom> delete(Integer commentId);
+	ResultBean<CommentCustom> delete(CommentCustom commentCustom) throws CustomException;
 	// 修改评论
-	ResultBean<CommentCustom> update(CommentCustom commentCustom);
+	ResultBean<CommentCustom> update(CommentCustom commentCustom) throws CustomException;
 	//根据条件查找评论
-	ResultBean<CommentCustom> getBySelective(CommentCustom commentCustom);
+	ResultBean<CommentCustom> getCommentSelective(CommentCustom commentCustom) throws CustomException;
 	//根据条件获取评论列表
 	ResultBean<ResultList<CommentCustom>> getCommentListSelective
-	(CommentCustom commentCustom,int pageSize,int pageNum);
+	(CommentCustom commentCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取评论列表
 	ResultBean<ResultList<CommentCustom>> getCommentListSelectiveByTime
-	(CommentCustom commentCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(CommentCustom commentCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 }

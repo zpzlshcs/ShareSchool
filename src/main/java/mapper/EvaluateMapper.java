@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Evaluate;
+import po.EvaluateCustom;
 
 public interface EvaluateMapper {
     int deleteByPrimaryKey(Integer evaluateId);
@@ -20,10 +21,10 @@ public interface EvaluateMapper {
 
     int updateByPrimaryKey(Evaluate record);
 
-    List<Evaluate> selectEvaluateSelective(Evaluate record);
+    List<EvaluateCustom> selectEvaluateSelective(Evaluate record);
     
-    List<Evaluate> selectEvaluateListSelective(Evaluate record);
+    List<EvaluateCustom> selectEvaluateListSelective(Evaluate record);
     
-    List<Evaluate> selectEvaluateListSelectiveByDate
+    List<EvaluateCustom> selectEvaluateListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Evaluate")Evaluate record);
 }

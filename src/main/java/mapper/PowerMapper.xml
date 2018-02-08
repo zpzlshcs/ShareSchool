@@ -11,6 +11,21 @@
   <sql id="Base_Column_List">
     power_id, power_key, user_id, power_createtime, power_endtime
   </sql>
+  <resultMap id="CustomResultMap" type="po.PowerCustom">
+    <id column="power_id" jdbcType="INTEGER" property="powerId" />
+    <result column="power_key" jdbcType="VARCHAR" property="powerKey" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="power_createtime" jdbcType="TIMESTAMP" property="powerCreatetime" />
+    <result column="power_endtime" jdbcType="TIMESTAMP" property="powerEndtime" />
+    
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_level" jdbcType="INTEGER" property="userLevel" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    power_id, power_key, db_power.user_id, power_createtime, power_endtime,
+    a.user_phone as user_phone, a.user_name as user_name
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -90,8 +105,10 @@
       power_endtime = #{powerEndtime,jdbcType=TIMESTAMP}
     where power_id = #{powerId,jdbcType=INTEGER}
   </update>
-  <select id="selectPowerSelective" parameterType="po.Power" resultMap="BaseResultMap">
-      select * from db_power
+  <select id="selectPowerSelective" parameterType="po.Power" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_power
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="powerId != null">
       power_id = #{powerId,jdbcType=INTEGER}
@@ -103,13 +120,19 @@
       AND user_id = #{userId,jdbcType=INTEGER}
       </if>
       </trim>
+      LEFT JOIN db_user a ON db_power.user_id=a.user_id
   </select>
-  <select id="selectPowerListSelective" parameterType="po.Power" resultMap="BaseResultMap">
-      select * from db_power
+  <select id="selectPowerListSelective" parameterType="po.Power" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_power
+      LEFT JOIN db_user a ON db_power.user_id=a.user_id
       order by power_createtime DESC
   </select>
-  <select id="selectPowerListSelectiveByDate" resultMap="BaseResultMap">
-      select * from db_power
+  <select id="selectPowerListSelectiveByDate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_power
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="startTime != null">
       <![CDATA[
@@ -122,6 +145,7 @@
       ]]>
       </if>
       </trim>
+      LEFT JOIN db_user a ON db_power.user_id=a.user_id
       order by power_createtime DESC
   </select>
 </mapper>

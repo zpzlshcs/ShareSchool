@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Comment;
+import po.CommentCustom;
 
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer commentId);
@@ -20,10 +21,10 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
 
-    List<Comment> selectCommentSelective(Comment record);
+    List<CommentCustom> selectCommentSelective(Comment record);
     
-    List<Comment> selectCommentListSelective(Comment record);
+    List<CommentCustom> selectCommentListSelective(Comment record);
     
-    List<Comment> selectCommentListSelectiveByDate
+    List<CommentCustom> selectCommentListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Comment")Comment record);
 }

@@ -23,6 +23,30 @@
     task_type, task_content, task_price, task_counts, task_restcounts, task_img, task_createtime, 
     task_endtime
   </sql>
+  <resultMap id="CustomResultMap" type="po.TaskCustom">
+    <id column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="task_title" jdbcType="VARCHAR" property="taskTitle" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="task_user_name" jdbcType="VARCHAR" property="taskUserName" />
+    <result column="task_schedule" jdbcType="INTEGER" property="taskSchedule" />
+    <result column="task_state" jdbcType="INTEGER" property="taskState" />
+    <result column="task_is_delete" jdbcType="INTEGER" property="taskIsDelete" />
+    <result column="task_type" jdbcType="INTEGER" property="taskType" />
+    <result column="task_content" jdbcType="VARCHAR" property="taskContent" />
+    <result column="task_price" jdbcType="DOUBLE" property="taskPrice" />
+    <result column="task_counts" jdbcType="INTEGER" property="taskCounts" />
+    <result column="task_restcounts" jdbcType="INTEGER" property="taskRestcounts" />
+    <result column="task_img" jdbcType="VARCHAR" property="taskImg" />
+    <result column="task_createtime" jdbcType="TIMESTAMP" property="taskCreatetime" />
+    <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndtime" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    task_id, task_title, user_id, task_user_name, task_schedule, task_state, task_is_delete, 
+    task_type, task_content, task_price, task_counts, task_restcounts, task_img, task_createtime, 
+    task_endtime,user_phone,user_name
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -210,8 +234,10 @@
       task_endtime = #{taskEndtime,jdbcType=TIMESTAMP}
     where task_id = #{taskId,jdbcType=INTEGER}
   </update>
-  <select id="selectTaskSelective" parameterType="po.Task" resultMap="BaseResultMap">
-      select * from db_task
+  <select id="selectTaskSelective" parameterType="po.Task" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_task
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="taskId != null">
       task_id = #{taskId,jdbcType=INTEGER}
@@ -220,9 +246,12 @@
       AND user_id = #{userId,jdbcType=VARCHAR}
       </if>
       </trim>
+      LEFT JOIN db_user a ON a.user_id=db_task.user_id
   </select>
-  <select id="selectTaskListSelective" parameterType="po.Task" resultMap="BaseResultMap">
-      select * from db_task
+  <select id="selectTaskListSelective" parameterType="po.Task" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_task
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="taskSchedule != null">
       task_schedule = #{taskSchedule,jdbcType=INTEGER}
@@ -232,22 +261,31 @@
       </if>
       <if test="taskType != null">
       AND task_type = #{taskType,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null">
+      AND user_id = #{userId,jdbcType=VARCHAR}
       </if>
       </trim>
+      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       order by task_createtime DESC
   </select>
-  <select id="selectTaskListSelectiveByDate" resultMap="BaseResultMap">
+  <select id="selectTaskListSelectiveByDate" resultMap="CustomResultMap">
       
-      select * from db_task
+      select
+      <include refid="Base_getAll_List" />
+      from db_task
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="taskSchedule != null">
-      task_schedule = #{taskSchedule,jdbcType=INTEGER}
+      <if test="Task.taskSchedule != null">
+      task_schedule = #{Task.taskSchedule,jdbcType=INTEGER}
       </if>
-      <if test="taskState != null">
-      AND task_state = #{taskState,jdbcType=INTEGER}
+      <if test="Task.taskState != null">
+      AND task_state = #{Task.taskState,jdbcType=INTEGER}
       </if>
-      <if test="taskType != null">
-      AND task_type = #{taskType,jdbcType=INTEGER}
+      <if test="Task.taskType != null">
+      AND task_type = #{Task.taskType,jdbcType=INTEGER}
+      </if>
+      <if test="Task.userId != null">
+      AND user_id = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="startTime != null">
       <![CDATA[
@@ -260,6 +298,7 @@
       ]]>
       </if>
       </trim>
+      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       order by task_createtime DESC
   </select>
 </mapper>

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Order;
+import po.OrderCustom;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer orderId);
@@ -20,10 +21,10 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    List<Order> selectSelective(Order record);
+    List<OrderCustom> selectOrderSelective(Order record);
     
-    List<Order> selectOrderListSelective(Order record);
+    List<OrderCustom> selectOrderListSelective(Order record);
     
-    List<Order> selectOrderListSelectiveByDate
+    List<OrderCustom> selectOrderListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Order")Order record);
 }

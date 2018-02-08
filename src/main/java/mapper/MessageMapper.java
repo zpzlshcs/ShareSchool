@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Message;
+import po.MessageCustom;
 
 public interface MessageMapper {
     int deleteByPrimaryKey(Integer messageId);
@@ -20,10 +21,10 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
-    List<Message> selectMessageSelective(Message record);
+    List<MessageCustom> selectMessageSelective(Message record);
     
-    List<Message> selectMessageListSelective(Message record);
+    List<MessageCustom> selectMessageListSelective(Message record);
     
-    List<Message> selectMessageListSelectiveByDate
+    List<MessageCustom> selectMessageListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Message")Message record);
 }

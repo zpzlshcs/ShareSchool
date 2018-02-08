@@ -12,6 +12,24 @@
   <sql id="Base_Column_List">
     follow_id, user_id, follow_user_id, follow_state, follow_createtime, follow_changetime
   </sql>
+  <resultMap id="CustomResultMap" type="po.FollowCustom">
+    <id column="follow_id" jdbcType="INTEGER" property="followId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="follow_user_id" jdbcType="INTEGER" property="followUserId" />
+    <result column="follow_state" jdbcType="INTEGER" property="followState" />
+    <result column="follow_createtime" jdbcType="TIMESTAMP" property="followCreatetime" />
+    <result column="follow_changetime" jdbcType="TIMESTAMP" property="followChangetime" />
+    
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="follow_user_phone" jdbcType="VARCHAR" property="followUserPhone" />
+    <result column="follow_user_name" jdbcType="VARCHAR" property="followUserName" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    follow_id, user_id, follow_user_id, follow_state, follow_createtime, follow_changetime,
+    a.user_phone as user_phone, a.user_name as user_name,
+    b.user_phone as follow_user_phone, b.user_name as follow_user_name
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -103,4 +121,64 @@
       follow_changetime = #{followChangetime,jdbcType=TIMESTAMP}
     where follow_id = #{followId,jdbcType=INTEGER}
   </update>
+  <select id="selectFollowSelective" parameterType="po.Follow" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_follow
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="followId != null">
+      follow_id = #{followId,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_follow.user_id
+      LEFT join db_user b on b.user_id=db_follow.follow_user_id
+  </select>
+  <select id="selectFollowListSelective" parameterType="po.Follow" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_follow 
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="userId != null">
+      user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="followUserId != null">
+      AND follow_user_id = #{followUserId,jdbcType=INTEGER}
+      </if>
+      <if test="followState != null">
+      AND follow_state = #{followState,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_follow.user_id
+      LEFT join db_user b on b.user_id=db_follow.follow_user_id
+      order by follow_createtime DESC
+  </select>
+  <select id="selectFollowListSelectiveByDate" resultMap="CustomResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_follow
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="Follow.userId != null">
+      user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="Follow.followUserId != null">
+      AND follow_user_id = #{Follow.followUserId,jdbcType=INTEGER}
+      </if>
+      <if test="Follow.followState != null">
+      AND follow_state = #{Follow.followState,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND follow_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND follow_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_follow.user_id
+      LEFT join db_user b on b.user_id=db_follow.follow_user_id
+      order by follow_createtime DESC
+  </select>
 </mapper>

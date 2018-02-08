@@ -1,6 +1,4 @@
 package service;
-import java.util.Date;
-
 /**
  * 
 * Copyright: Copyright (c) 2018 LanRu-Caifu
@@ -17,23 +15,29 @@ import java.util.Date;
 *---------------------------------------------------------*
 * 2018年2月2日     GzpzG           v1.0.0               创建
  */
+
+import java.util.Date;
+
+import exception.CustomException;
 import po.CollectCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface CollectService {
 	 //添加收藏
-	ResultBean<CollectCustom> insert(CollectCustom collectCustom);
-	//修改收藏（取消收藏、修改备注）
-	ResultBean<CollectCustom> update(CollectCustom collectCustom);
+	ResultBean<CollectCustom> insert(CollectCustom collectCustom) throws CustomException;
+	//取消收藏
+	ResultBean<CollectCustom> cancel(CollectCustom collectCustom) throws CustomException;
+	//修改收藏备注
+    ResultBean<CollectCustom> changeRemark(CollectCustom collectCustom) throws CustomException;
 	//根据条件查找收藏
-	ResultBean<CollectCustom> getBySelective(CollectCustom collectCustom);
+	ResultBean<CollectCustom> getCollectSelective(CollectCustom collectCustom) throws CustomException;
 	//根据条件获取收藏列表
 	ResultBean<ResultList<CollectCustom>> getCollectListSelective
-	(CollectCustom collectCustom,int pageSize,int pageNum);
+	(CollectCustom collectCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取收藏列表
 	ResultBean<ResultList<CollectCustom>> getCollectListSelectiveByTime
-	(CollectCustom collectCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(CollectCustom collectCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 	
 
 }

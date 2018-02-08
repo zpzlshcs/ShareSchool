@@ -88,23 +88,4 @@
       </trim>
       order by school_id DESC
   </select>
-  <select id="selectSchoolListSelectiveByDate" resultMap="BaseResultMap">
-      select * from db_school
-      <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="schoolIsHot != null">
-      school_is_hot = #{schoolIsHot,jdbcType=INTEGER}
-      </if>
-      <if test="startTime != null">
-      <![CDATA[
-      AND school_createtime >= #{startTime}
-      ]]>
-      </if>
-      <if test="endTime != null">
-      <![CDATA[
-      AND school_createtime <= #{endTime}
-      ]]>
-      </if>
-      </trim>
-      order by school_id DESC
-  </select>
 </mapper>

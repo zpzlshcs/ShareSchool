@@ -1,12 +1,4 @@
 package mapper;
-
-import java.util.Date;
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
-import po.User;
-
 /**
  * 
 * Copyright: Copyright (c) 2018 LanRu-Caifu
@@ -23,6 +15,15 @@ import po.User;
 *---------------------------------------------------------*
 * 2018年2月2日     GzpzG           v1.0.0               创建
  */
+
+import java.util.Date;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import po.User;
+
+
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 
@@ -41,7 +42,7 @@ public interface UserMapper {
     List<User> selectUserListSelective(User record);
     
     List<User> selectUserListSelectiveByDate
-    (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("user")User record);
+    (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("User")User record);
     
     
 }

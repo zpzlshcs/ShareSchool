@@ -6,10 +6,10 @@ public class Evaluate {
     private Integer evaluateId;
 
     private Integer userId;
+    
+    private Integer orderId;
 
-    private Integer taskId;
-
-    private String evaluateContent;
+	private String evaluateContent;
 
     private Integer evaluateType;
 
@@ -20,6 +20,14 @@ public class Evaluate {
     private Date evaluateCreatetime;
 
     private Integer evaluateState;
+
+    public Integer getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
 
     public Integer getEvaluateId() {
         return evaluateId;
@@ -37,13 +45,7 @@ public class Evaluate {
         this.userId = userId;
     }
 
-    public Integer getTaskId() {
-        return taskId;
-    }
 
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
-    }
 
     public String getEvaluateContent() {
         return evaluateContent;

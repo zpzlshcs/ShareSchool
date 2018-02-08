@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Wallet;
+import po.WalletCustom;
 
 public interface WalletMapper {
     int deleteByPrimaryKey(Integer walletId);
@@ -20,10 +21,10 @@ public interface WalletMapper {
 
     int updateByPrimaryKey(Wallet record);
 
-    List<Wallet> selectWalletSelective(Wallet record);
+    List<WalletCustom> selectWalletSelective(Wallet record);
     
-    List<Wallet> selectWalletListSelective(Wallet record);
+    List<WalletCustom> selectWalletListSelective(Wallet record);
     
-    List<Wallet> selectWalletListSelectiveByDate
+    List<WalletCustom> selectWalletListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Wallet")Wallet record);
 }

@@ -18,22 +18,23 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.FollowCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface FollowService {
 	//添加关注
-	ResultBean<FollowCustom> insert(FollowCustom followCustom);
+	ResultBean<FollowCustom> insert(FollowCustom followCustom) throws CustomException;
 	//取消关注
-	ResultBean<FollowCustom> delete(Integer followId);
+	ResultBean<FollowCustom> delete(Integer followId) throws CustomException;
 	//根据条件查找关注
-	ResultBean<FollowCustom> getBySelective(FollowCustom followCustom);
+	ResultBean<FollowCustom> getFollowSelective(FollowCustom followCustom) throws CustomException;
 	//根据条件获取关注列表
 	ResultBean<ResultList<FollowCustom>> getFollowListSelective
-	(FollowCustom followCustom,int pageSize,int pageNum);
+	(FollowCustom followCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取关注列表
 	ResultBean<ResultList<FollowCustom>> getFollowListSelectiveByTime
-	(FollowCustom followCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(FollowCustom followCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 	
 }

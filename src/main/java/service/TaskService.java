@@ -18,6 +18,7 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.TaskCustom;
 import utils.ResultBean;
 import utils.ResultList;
@@ -25,18 +26,18 @@ import utils.ResultList;
 public interface TaskService {
 
 	//创建任务
-	ResultBean<TaskCustom> insert(TaskCustom taskCustom);
+	ResultBean<TaskCustom> insert(TaskCustom taskCustom) throws CustomException;
 	//删除任务
-	ResultBean<TaskCustom> insert(Integer taskId);
+	ResultBean<TaskCustom> delete(TaskCustom taskCustom) throws CustomException;
 	//修改任务
-	ResultBean<TaskCustom> update(TaskCustom taskCustom);
+	ResultBean<TaskCustom> update(TaskCustom taskCustom) throws CustomException;
 	//根据条件获取任务
-	ResultBean<TaskCustom> getTaskSelective(TaskCustom taskCustom);
+	ResultBean<TaskCustom> getTaskSelective(TaskCustom taskCustom) throws CustomException;
 	//根据条件获取任务列表
 	ResultBean<ResultList<TaskCustom>> getTaskListSelective
-	(TaskCustom taskCustom,int pageSize,int pageNum);
+	(TaskCustom taskCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取任务列表
 	ResultBean<ResultList<TaskCustom>> getTaskListSelectiveByTime
-	(TaskCustom taskCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(TaskCustom taskCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 
 }

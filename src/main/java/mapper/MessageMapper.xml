@@ -15,6 +15,27 @@
     message_id, message_send_user_id, message_receive_user_id, message_content, message_img, 
     message_createtime, message_type, message_receive_state
   </sql>
+  <resultMap id="CustomResultMap" type="po.MessageCustom">
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="message_send_user_id" jdbcType="INTEGER" property="messageSendUserId" />
+    <result column="message_receive_user_id" jdbcType="INTEGER" property="messageReceiveUserId" />
+    <result column="message_content" jdbcType="VARCHAR" property="messageContent" />
+    <result column="message_img" jdbcType="VARCHAR" property="messageImg" />
+    <result column="message_createtime" jdbcType="TIMESTAMP" property="messageCreatetime" />
+    <result column="message_type" jdbcType="INTEGER" property="messageType" />
+    <result column="message_receive_state" jdbcType="INTEGER" property="messageReceiveState" />
+    
+    <result column="send_user_phone" jdbcType="VARCHAR" property="sendUserPhone" />
+    <result column="send_user_name" jdbcType="VARCHAR" property="sendUserName" />
+    <result column="receive_user_phone" jdbcType="VARCHAR" property="receiveUserPhone" />
+    <result column="receive_user_name" jdbcType="VARCHAR" property="receiveUserName" />
+  </resultMap>
+  <sql id="Base_getAll_List">
+    message_id, message_send_user_id, message_receive_user_id, message_content, message_img, 
+    message_createtime, message_type, message_receive_state,
+    a.user_phone as send_user_phone, a.user_name as send_user_name,
+    b.user_phone as receive_user_phone, b.user_name as receive_user_name
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -126,4 +147,70 @@
       message_receive_state = #{messageReceiveState,jdbcType=INTEGER}
     where message_id = #{messageId,jdbcType=INTEGER}
   </update>
+  <select id="selectMessageSelective" parameterType="po.Message" resultMap="BaseResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_message
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="messageId != null">
+      message_id = #{messageId,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_message.user_id
+      LEFT join db_user b on b.user_id=db_message.message_user_id
+  </select>
+  <select id="selectMessageListSelective" parameterType="po.Message" resultMap="BaseResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_message 
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="messageSendUserId != null">
+      message_send_user_id = #{messageSendUserId,jdbcType=INTEGER}
+      </if>
+      <if test="messageReceiveUserId != null">
+      AND message_receive_user_id = #{messageReceiveUserId,jdbcType=INTEGER}
+      </if>
+      <if test="messageType != null">
+      AND message_type = #{messageType,jdbcType=INTEGER}
+      </if>
+      <if test="messageReceiveState != null">
+      AND message_receive_state = #{messageReceiveState,jdbcType=INTEGER}
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_message.user_id
+      LEFT join db_user b on b.user_id=db_message.message_user_id
+      order by message_createtime DESC
+  </select>
+  <select id="selectMessageListSelectiveByDate" resultMap="BaseResultMap">
+      select
+      <include refid="Base_getAll_List" />
+      from db_message
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="Message.messageSendUserId != null">
+      message_send_user_id = #{Message.messageSendUserId,jdbcType=INTEGER}
+      </if>
+      <if test="Message.messageReceiveUserId != null">
+      AND message_receive_user_id = #{Message.messageReceiveUserId,jdbcType=INTEGER}
+      </if>
+      <if test="Message.messageType != null">
+      AND message_type = #{Message.messageType,jdbcType=INTEGER}
+      </if>
+      <if test="Message.messageReceiveState != null">
+      AND message_receive_state = #{Message.messageReceiveState,jdbcType=INTEGER}
+      </if>
+      <if test="startTime != null">
+      <![CDATA[
+      AND message_createtime >= #{startTime}
+      ]]>
+      </if>
+      <if test="endTime != null">
+      <![CDATA[
+      AND message_createtime <= #{endTime}
+      ]]>
+      </if>
+      </trim>
+      LEFT join db_user a on a.user_id=db_message.user_id
+      LEFT join db_user b on b.user_id=db_message.message_user_id
+      order by message_createtime DESC
+  </select>
 </mapper>

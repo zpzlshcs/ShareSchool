@@ -27,4 +27,6 @@
 <bean id="taskService" class="service.impl.TaskServiceImpl"/>
 <bean id="userService" class="service.impl.UserServiceImpl"/>
 <bean id="walletService" class="service.impl.WalletServiceImpl"/>
+<bean id="evaluateService" class="service.impl.EvaluateServiceImpl"/>
+
 </beans>

@@ -18,31 +18,39 @@ package service;
 
 import java.util.Date;
 
+import exception.CustomException;
 import po.OrderCustom;
 import utils.ResultBean;
 import utils.ResultList;
 
 public interface OrderService {
 	//创建订单
-	ResultBean<OrderCustom> insert(OrderCustom orderCustom);
+	ResultBean<OrderCustom> insert(OrderCustom orderCustom) throws CustomException;
 	//支付方确认订单完成
-	ResultBean<OrderCustom> launchConfirm(Integer orderId);
+	ResultBean<OrderCustom> launchConfirm(OrderCustom orderCustom) throws CustomException;
 	//接受方确认完成
-	ResultBean<OrderCustom> receiveConfirm(Integer orderId);
+	ResultBean<OrderCustom> receiveConfirm(OrderCustom orderCustom) throws CustomException;
 	//支付方删除订单
-	ResultBean<OrderCustom> launchDelete(Integer orderId);
+	ResultBean<OrderCustom> launchDelete(OrderCustom orderCustom) throws CustomException;
 	//接受方删除订单
-	ResultBean<OrderCustom> receiveDelete(Integer orderId);
-	//中止订单
-	ResultBean<OrderCustom> cutOrder(Integer orderId);
+	ResultBean<OrderCustom> receiveDelete(OrderCustom orderCustom) throws CustomException;
+	//支付方申请中止订单
+	ResultBean<OrderCustom> launchCut(OrderCustom orderCustom) throws CustomException;
+	//接受方申请中止订单
+	ResultBean<OrderCustom> receiveCut(OrderCustom orderCustom) throws CustomException;
 	
+	//中止订单
+	ResultBean<OrderCustom> cutOrder(Integer orderId) throws CustomException;
+	
+	//取消订单（下订单两个小时内，对诚信值有影响）
+	ResultBean<OrderCustom> cancel(OrderCustom orderCustom) throws CustomException;
 	
 	//根据条件查找订单
-	ResultBean<OrderCustom> getBySelective(OrderCustom OrderCustom);
+	ResultBean<OrderCustom> getOrderSelective(OrderCustom OrderCustom) throws CustomException;
 	//根据条件获取订单列表
 	ResultBean<ResultList<OrderCustom>> getOrderListSelective
-	(OrderCustom OrderCustom,int pageSize,int pageNum);
+	(OrderCustom OrderCustom,Integer pageSize,Integer pageNum) throws CustomException;
 	//根据时间+条件获取订单列表
 	ResultBean<ResultList<OrderCustom>> getOrderListSelectiveByTime
-	(OrderCustom OrderCustom,Date startTime,Date endTime,int pageSize,int pageNum);
+	(OrderCustom OrderCustom,Date startTime,Date endTime,Integer pageSize,Integer pageNum) throws CustomException;
 }

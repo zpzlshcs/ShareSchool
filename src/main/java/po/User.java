@@ -9,6 +9,8 @@ public class User {
 
     private String userPassword;
 
+    private String userName;
+
     private Integer userLevel;
 
     private Date userCreatetime;
@@ -37,6 +39,14 @@ public class User {
 
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword == null ? null : userPassword.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public Integer getUserLevel() {

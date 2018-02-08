@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import po.Follow;
+import po.FollowCustom;
 
 public interface FollowMapper {
     int deleteByPrimaryKey(Integer followId);
@@ -20,10 +21,10 @@ public interface FollowMapper {
 
     int updateByPrimaryKey(Follow record);
 
-    List<Follow> selectFollowSelective(Follow record);
+    List<FollowCustom> selectFollowSelective(Follow record);
     
-    List<Follow> selectFollowListSelective(Follow record);
+    List<FollowCustom> selectFollowListSelective(Follow record);
     
-    List<Follow> selectFollowListSelectiveByDate
+    List<FollowCustom> selectFollowListSelectiveByDate
     (@Param("endTime")Date endDate,@Param("startTime")Date startDate,@Param("Follow")Follow record);
 }
