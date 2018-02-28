@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import exception.CustomException;
 import filter.CheckToken;
+import filter.HeaderTokenFilter;
 import po.User;
 import po.UserCustom;
 import service.UserService;
@@ -27,6 +29,7 @@ import utils.getListRequestBean;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	private static Logger logger = Logger.getLogger(HeaderTokenFilter.class);
 
 	@Autowired
 	UserService userService;
@@ -45,12 +48,38 @@ public class UserController {
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
 	public ResultBean<UserCustom> login
-	(@RequestBody UserCustom user) throws Exception{
+	(@RequestBody UserCustom user,HttpServletRequest request) throws Exception{
+		request.setCharacterEncoding("UTF-8");
+		logger.info(request.getParameter("userPassword")+","+request.getParameter("id"));
 		if(user.getUserPhone()==null)
 			throw new CustomException(101, "手机号不能为空");
 		if(user.getUserPassword()==null)
 			throw new CustomException(101, "密码不能为空");
 		return userService.login(user.getUserPhone(), user.getUserPassword());
+	}
+	
+	@RequestMapping(value="/changePass",method=RequestMethod.POST)
+	@ResponseBody
+	public ResultBean<UserCustom> changePass
+	(@RequestBody UserCustom user,HttpServletRequest request) throws Exception{
+		if(user.getUserId()==null)
+			throw new CustomException(101, "用户id不能为空");
+		CheckToken.check(request, user.getUserId());
+		if(user.getUserPhone()==null)
+			throw new CustomException(101, "手机号不能为空");
+		if(user.getUserPassword()==null)
+			throw new CustomException(101, "新密码不能为空");
+		return userService.changePassword(user.getUserPhone(), user.getUserPassword());
+	}
+	
+	@RequestMapping(value="/upLevel",method=RequestMethod.POST)
+	@ResponseBody
+	public ResultBean<UserCustom> upLevel
+	(@RequestBody UserCustom user,HttpServletRequest request) throws Exception{
+		CheckToken.checkManager(request);
+		if(user.getUserId()==null)
+			throw new CustomException(101, "用户id不能为空");
+		return userService.changeLevel(user);
 	}
 	
 	@RequestMapping(value="/getUser",method=RequestMethod.GET)

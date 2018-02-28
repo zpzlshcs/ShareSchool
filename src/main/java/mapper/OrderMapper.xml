@@ -263,19 +263,22 @@
       select
       <include refid="Base_getAll_List" />
       from db_order
+      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
+      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
+      LEFT join db_task t on t.user_id=db_order.order_task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="orderId != null">
       order_id = #{orderId,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
-      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
-      LEFT join db_task t on t.user_id=db_order.order_task_id
   </select>
   <select id="selectOrderListSelective" parameterType="po.Order" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_order 
+      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
+      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
+      LEFT join db_task t on t.user_id=db_order.order_task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="orderLaunchUserId != null">
       order_launch_user_id = #{orderLaunchUserId,jdbcType=INTEGER}
@@ -308,15 +311,15 @@
       AND order_receive_state = #{orderReceiveState,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
-      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
-      LEFT join db_task t on t.user_id=db_order.order_task_id
       order by order_createtime DESC
   </select>
   <select id="selectOrderListSelectiveByDate" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_order
+      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
+      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
+      LEFT join db_task t on t.user_id=db_order.order_task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="Order.orderLaunchUserId != null">
       order_launch_user_id = #{Order.orderLaunchUserId,jdbcType=INTEGER}
@@ -359,9 +362,6 @@
       ]]>
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_order.order_launch_user_id
-      LEFT join db_user b on b.user_id=db_order.order_receive_user_id
-      LEFT join db_task t on t.user_id=db_order.order_task_id
       order by order_createtime DESC
   </select>
 </mapper>

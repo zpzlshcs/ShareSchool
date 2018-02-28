@@ -95,6 +95,8 @@ public class JWTtutil {
         	           .parseClaimsJws(jwt).getBody();
         }catch(ExpiredJwtException ex){
         	throw new CustomException(103, "证书失效，请重新登录");
+        }catch(IllegalArgumentException e){
+        	throw new CustomException(103, "请先登录");
         }
         TokenBean tokenBean = new TokenBean();
         if(claims.get("userId")==null)

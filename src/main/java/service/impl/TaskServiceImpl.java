@@ -8,7 +8,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import exception.CustomException;
+import mapper.CollectMapper;
+import mapper.OrderMapper;
 import mapper.TaskMapper;
+import po.CollectCustom;
+import po.OrderCustom;
 import po.Task;
 import po.TaskCustom;
 import service.TaskService;
@@ -37,6 +41,12 @@ public class TaskServiceImpl implements TaskService{
 	@Autowired
 	TaskMapper taskMapper;
 	
+	@Autowired
+	OrderMapper orderMapper;
+	
+	@Autowired
+	CollectMapper collectMapper;
+	
 	@Override
 	public ResultBean<TaskCustom> insert(TaskCustom taskCustom) throws CustomException {
 		//自动生成
@@ -56,7 +66,9 @@ public class TaskServiceImpl implements TaskService{
 		task.setTaskUserName(taskCustom.getTaskUserName());
 		task.setTaskType(task.getTaskType());
 		taskMapper.insertSelective(task);
-		taskCustom = taskMapper.selectTaskSelective(task).get(0);
+		//task = new Task();
+		//task.setUserId(taskCustom.getUserId());
+		//taskCustom = taskMapper.selectTaskSelective(task).get(0);
 		resultBean.setResultData(taskCustom);
 		resultBean.setResultCode(999);
 		resultBean.setResultMessage("创建任务成功");
@@ -114,9 +126,24 @@ public class TaskServiceImpl implements TaskService{
 
 	@Override
 	public ResultBean<TaskCustom> getTaskSelective(TaskCustom taskCustom) throws CustomException {
-		// TODO Auto-generated method stub
+		Integer userId = taskCustom.getUserId();
+		taskCustom.setUserId(null);
 		ResultBean<TaskCustom> resultBean = new ResultBean<TaskCustom>();
 		BeanUtils.copyProperties(taskMapper.selectTaskSelective(taskCustom).get(0), taskCustom);
+		if(userId!=null){
+			CollectCustom collectCustom = new CollectCustom();
+			collectCustom.setUserId(userId);
+			collectCustom.setTaskId(taskCustom.getTaskId());
+			List<CollectCustom> collect = collectMapper.selectCollectSelective(collectCustom);
+		    if(!collect.isEmpty()&&collect.get(0).getCollectState()==0)
+		    	taskCustom.setCollectId(collect.get(0).getCollectId());
+		    OrderCustom orderCustom = new OrderCustom();
+		    orderCustom.setOrderReceiveUserId(userId);
+		    orderCustom.setOrderTaskId(taskCustom.getTaskId());
+		    List<OrderCustom> order = orderMapper.selectOrderSelective(orderCustom);
+		    if(!order.isEmpty())
+		    	taskCustom.setOrderId(order.get(0).getOrderId());
+		}
 		resultBean.setResultCode(999);
 		resultBean.setResultData(taskCustom);
 		return resultBean;

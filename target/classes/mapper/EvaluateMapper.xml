@@ -184,19 +184,22 @@
       select
       <include refid="Base_getAll_List" />
       from db_evaluate
+      LEFT join db_user a on a.user_id=db_evaluate.user_id
+      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
+      LEFT join db_order t on t.order_id=db_evaluate.order_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="evaluateId != null">
       evaluate_id = #{evaluateId,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_evaluate.user_id
-      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
-      LEFT join db_order t on t.order_id=db_evaluate.order_id
   </select>
   <select id="selectEvaluateListSelective" parameterType="po.Evaluate" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_evaluate 
+      LEFT join db_user a on a.user_id=db_evaluate.user_id
+      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
+      LEFT join db_order t on t.order_id=db_evaluate.order_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="userId != null">
       user_id = #{userId,jdbcType=INTEGER}
@@ -217,15 +220,15 @@
       AND evaluate_state = #{evaluateState,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_evaluate.user_id
-      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
-      LEFT join db_order t on t.order_id=db_evaluate.order_id
       order by evaluate_createtime DESC
   </select>
   <select id="selectEvaluateListSelectiveByDate" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_evaluate
+      LEFT join db_user a on a.user_id=db_evaluate.user_id
+      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
+      LEFT join db_order t on t.order_id=db_evaluate.order_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="Evaluate.userId != null">
       user_id = #{Evaluate.userId,jdbcType=INTEGER}
@@ -256,9 +259,6 @@
       ]]>
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_evaluate.user_id
-      LEFT join db_user b on b.user_id=db_evaluate.evaluate_user_id
-      LEFT join db_order t on t.order_id=db_evaluate.order_id
       order by evaluate_createtime DESC
   </select>
 </mapper>

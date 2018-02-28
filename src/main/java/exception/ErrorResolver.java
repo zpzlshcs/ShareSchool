@@ -2,13 +2,18 @@ package exception;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.validation.BindException;
@@ -18,17 +23,24 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import filter.HeaderTokenFilter;
 import utils.ResultBean;
 
+@ResponseStatus(value=HttpStatus.OK)
 public class ErrorResolver implements HandlerExceptionResolver {
 
+	private static Logger logger = Logger.getLogger(HeaderTokenFilter.class);
+	
+	@Override
 	public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 			Exception ex) {
 		ResultBean<Object> resultBean = new ResultBean<Object>();
@@ -92,17 +104,23 @@ public class ErrorResolver implements HandlerExceptionResolver {
 		}
 		resultBean.setResultCode(resultCode);
 		resultBean.setResultMessage(resultMessage);
-		response.setCharacterEncoding("UTF-8");
+		logger.error(resultMessage);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setStatus(HttpStatus.OK);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setDateFormat(sdf);
+		String json = "";
 		try {
-			PrintWriter out = response.getWriter();
-			ObjectMapper objectMapper = new ObjectMapper();
-			String json = objectMapper.writeValueAsString(resultBean);
-			out.write(json);
-		} catch (IOException e) {
+			json = objectMapper.writeValueAsString(resultBean);
+		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		ex.printStackTrace();
+		modelAndView.setViewName("/WEB-INF/result.jsp");
+		modelAndView.addObject("result",json);
+		return modelAndView;
 	}
 
 }

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="po.Evaluate">
     <id column="evaluate_id" jdbcType="INTEGER" property="evaluateId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="task_id" jdbcType="INTEGER" property="taskId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
     <result column="evaluate_content" jdbcType="VARCHAR" property="evaluateContent" />
     <result column="evaluate_type" jdbcType="INTEGER" property="evaluateType" />
     <result column="evaluate_level" jdbcType="INTEGER" property="evaluateLevel" />
@@ -13,8 +13,8 @@
     <result column="evaluate_state" jdbcType="INTEGER" property="evaluateState" />
   </resultMap>
   <sql id="Base_Column_List">
-    evaluate_id, user_id, task_id, evaluate_content, evaluate_type, evaluate_level, evaluate_user_id, 
-    evaluate_createtime, evaluate_state
+    evaluate_id, user_id, order_id, evaluate_content, evaluate_type, evaluate_level, 
+    evaluate_user_id, evaluate_createtime, evaluate_state
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,11 +27,11 @@
     where evaluate_id = #{evaluateId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="po.Evaluate">
-    insert into db_evaluate (evaluate_id, user_id, task_id, 
+    insert into db_evaluate (evaluate_id, user_id, order_id, 
       evaluate_content, evaluate_type, evaluate_level, 
       evaluate_user_id, evaluate_createtime, evaluate_state
       )
-    values (#{evaluateId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{taskId,jdbcType=INTEGER}, 
+    values (#{evaluateId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, 
       #{evaluateContent,jdbcType=VARCHAR}, #{evaluateType,jdbcType=INTEGER}, #{evaluateLevel,jdbcType=INTEGER}, 
       #{evaluateUserId,jdbcType=INTEGER}, #{evaluateCreatetime,jdbcType=TIMESTAMP}, #{evaluateState,jdbcType=INTEGER}
       )
@@ -45,8 +45,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="taskId != null">
-        task_id,
+      <if test="orderId != null">
+        order_id,
       </if>
       <if test="evaluateContent != null">
         evaluate_content,
@@ -74,8 +74,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="taskId != null">
-        #{taskId,jdbcType=INTEGER},
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
       </if>
       <if test="evaluateContent != null">
         #{evaluateContent,jdbcType=VARCHAR},
@@ -103,8 +103,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="taskId != null">
-        task_id = #{taskId,jdbcType=INTEGER},
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
       </if>
       <if test="evaluateContent != null">
         evaluate_content = #{evaluateContent,jdbcType=VARCHAR},
@@ -130,7 +130,7 @@
   <update id="updateByPrimaryKey" parameterType="po.Evaluate">
     update db_evaluate
     set user_id = #{userId,jdbcType=INTEGER},
-      task_id = #{taskId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
       evaluate_content = #{evaluateContent,jdbcType=VARCHAR},
       evaluate_type = #{evaluateType,jdbcType=INTEGER},
       evaluate_level = #{evaluateLevel,jdbcType=INTEGER},

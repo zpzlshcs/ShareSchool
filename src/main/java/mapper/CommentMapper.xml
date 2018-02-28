@@ -42,7 +42,7 @@
     <result column="task_endtime" jdbcType="TIMESTAMP" property="taskEndtime" />
   </resultMap>
   <sql id="Base_getAll_List">
-    comment_id, db_comment.user_id, db_comment.comment_to_user_id, db_comment.task_id, comment_content, comment_state, 
+    comment_id, db_comment.user_id, comment_to_user_id, db_comment.task_id, comment_content, comment_state, 
     comment_createtime, comment_changetime,
     a.user_phone as user_phone, a.user_name as user_name,
     b.user_phone as comment_to_user_phone, b.user_name as comment_to_user_name,
@@ -171,54 +171,59 @@
       select 
       <include refid="Base_getAll_List" />
       from db_comment
+      LEFT join db_user a on a.user_id=db_comment.user_id
+      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
+      LEFT join db_task t on t.user_id=db_comment.task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="commentId != null">
       comment_id = #{commentId,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_comment.user_id
-      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
-      LEFT join db_task t on t.user_id=db_comment.task_id
   </select>
-  <select id="selectCommentListSelective" parameterType="po.Comment" resultMap="CustomResultMap">
+  <select id="selectCommentListSelective" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_comment
+      LEFT join db_user a on a.user_id=db_comment.user_id
+      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
+      LEFT join db_task t on t.task_id=db_comment.task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="userId != null">
-      user_id = #{userId,jdbcType=INTEGER}
+      db_comment.user_id = #{userId,jdbcType=INTEGER}
       </if>
       <if test="commentToUserId != null">
       AND comment_to_user_id = #{commentToUserId,jdbcType=INTEGER}
       </if>
       <if test="taskId != null">
-      AND task_id = #{taskId,jdbcType=INTEGER}
+      AND db_comment.task_id = #{taskId,jdbcType=INTEGER}
       </if>
       <if test="commentState != null">
       AND comment_state = #{commentState,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_comment.user_id
-      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
-      LEFT join db_task t on t.user_id=db_comment.task_id
       order by comment_createtime DESC
   </select>
   <select id="selectCommentListSelectiveByDate" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_comment
+      LEFT join db_user a on a.user_id=db_comment.user_id
+      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
+      LEFT join db_task t on t.task_id=db_comment.task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="Comment!=null">
       <if test="Comment.userId != null">
-      user_id = #{Comment.userId,jdbcType=INTEGER}
+      db_comment.user_id = #{Comment.userId,jdbcType=INTEGER}
       </if>
       <if test="Comment.commentToUserId != null">
       AND comment_to_user_id = #{Comment.commentToUserId,jdbcType=INTEGER}
       </if>
       <if test="Comment.taskId != null">
-      AND task_id = #{Comment.taskId,jdbcType=INTEGER}
+      AND db_comment.task_id = #{Comment.taskId,jdbcType=INTEGER}
       </if>
       <if test="Comment.commentState != null">
       AND comment_state = #{Comment.commentState,jdbcType=INTEGER}
+      </if>
       </if>
       <if test="startTime != null">
       <![CDATA[
@@ -231,9 +236,6 @@
       ]]>
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_comment.user_id
-      LEFT join db_user b on b.user_id=db_comment.comment_to_user_id
-      LEFT join db_task t on t.user_id=db_comment.task_id
       order by comment_createtime DESC
   </select>
 </mapper>

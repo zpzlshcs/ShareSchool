@@ -11,6 +11,8 @@ public class Information {
 
     private String infoRealname;
 
+    private String infoPlace;
+
     private String infoIconimg;
 
     private Integer infoSchoolId;
@@ -55,6 +57,14 @@ public class Information {
 
     public void setInfoRealname(String infoRealname) {
         this.infoRealname = infoRealname == null ? null : infoRealname.trim();
+    }
+
+    public String getInfoPlace() {
+        return infoPlace;
+    }
+
+    public void setInfoPlace(String infoPlace) {
+        this.infoPlace = infoPlace == null ? null : infoPlace.trim();
     }
 
     public String getInfoIconimg() {

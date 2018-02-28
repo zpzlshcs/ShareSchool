@@ -69,6 +69,7 @@ public class InformationServiceImpl implements InformationService{
 		info.setInfoRealname(informationCustom.getInfoRealname());
 		info.setInfoSchoolId(informationCustom.getInfoSchoolId());
 		info.setInfoSex(informationCustom.getInfoSex());
+		info.setInfoPlace(informationCustom.getInfoPlace());
 		informationMapper.updateByPrimaryKeySelective(info);
 		if(info.getInfoNickname()!=null){
 			User user = new User();

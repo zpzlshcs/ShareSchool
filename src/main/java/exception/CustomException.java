@@ -1,8 +1,11 @@
 package exception;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+
 public class CustomException extends Exception{
-	// @Fields serialVersionUID : TODO
-	private static final long serialVersionUID = 1L;
+	
 	int resultCode;
 	String resultMessage;
 	public CustomException(int resultCode,String resultMessage){

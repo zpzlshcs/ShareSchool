@@ -43,7 +43,7 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
   </resultMap>
   <sql id="Base_getAll_List">
-    task_id, task_title, user_id, task_user_name, task_schedule, task_state, task_is_delete, 
+    task_id, task_title, db_task.user_id, task_user_name, task_schedule, task_state, task_is_delete, 
     task_type, task_content, task_price, task_counts, task_restcounts, task_img, task_createtime, 
     task_endtime,user_phone,user_name
   </sql>
@@ -238,20 +238,21 @@
       select
       <include refid="Base_getAll_List" />
       from db_task
+      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="taskId != null">
-      task_id = #{taskId,jdbcType=INTEGER}
+      db_task.task_id = #{taskId,jdbcType=INTEGER}
       </if>
       <if test="userId != null">
-      AND user_id = #{userId,jdbcType=VARCHAR}
+      AND db_task.user_id = #{userId,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT JOIN db_user a ON a.user_id=db_task.user_id
   </select>
   <select id="selectTaskListSelective" parameterType="po.Task" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_task
+      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="taskSchedule != null">
       task_schedule = #{taskSchedule,jdbcType=INTEGER}
@@ -263,10 +264,9 @@
       AND task_type = #{taskType,jdbcType=INTEGER}
       </if>
       <if test="userId != null">
-      AND user_id = #{userId,jdbcType=VARCHAR}
+      AND db_task.user_id = #{userId,jdbcType=VARCHAR}
       </if>
       </trim>
-      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       order by task_createtime DESC
   </select>
   <select id="selectTaskListSelectiveByDate" resultMap="CustomResultMap">
@@ -274,6 +274,7 @@
       select
       <include refid="Base_getAll_List" />
       from db_task
+      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="Task.taskSchedule != null">
       task_schedule = #{Task.taskSchedule,jdbcType=INTEGER}
@@ -285,7 +286,7 @@
       AND task_type = #{Task.taskType,jdbcType=INTEGER}
       </if>
       <if test="Task.userId != null">
-      AND user_id = #{userId,jdbcType=VARCHAR}
+      AND db_task.user_id = #{userId,jdbcType=VARCHAR}
       </if>
       <if test="startTime != null">
       <![CDATA[
@@ -298,7 +299,6 @@
       ]]>
       </if>
       </trim>
-      LEFT JOIN db_user a ON a.user_id=db_task.user_id
       order by task_createtime DESC
   </select>
 </mapper>

@@ -151,18 +151,20 @@
       select
       <include refid="Base_getAll_List" />
       from db_message
+      LEFT join db_user a on a.user_id=db_message.user_id
+      LEFT join db_user b on b.user_id=db_message.message_user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="messageId != null">
       message_id = #{messageId,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_message.user_id
-      LEFT join db_user b on b.user_id=db_message.message_user_id
   </select>
   <select id="selectMessageListSelective" parameterType="po.Message" resultMap="BaseResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_message 
+      LEFT join db_user a on a.user_id=db_message.user_id
+      LEFT join db_user b on b.user_id=db_message.message_user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="messageSendUserId != null">
       message_send_user_id = #{messageSendUserId,jdbcType=INTEGER}
@@ -177,14 +179,14 @@
       AND message_receive_state = #{messageReceiveState,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_message.user_id
-      LEFT join db_user b on b.user_id=db_message.message_user_id
       order by message_createtime DESC
   </select>
   <select id="selectMessageListSelectiveByDate" resultMap="BaseResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_message
+      LEFT join db_user a on a.user_id=db_message.user_id
+      LEFT join db_user b on b.user_id=db_message.message_user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="Message.messageSendUserId != null">
       message_send_user_id = #{Message.messageSendUserId,jdbcType=INTEGER}
@@ -209,8 +211,6 @@
       ]]>
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_message.user_id
-      LEFT join db_user b on b.user_id=db_message.message_user_id
       order by message_createtime DESC
   </select>
 </mapper>

@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="info_sex" jdbcType="INTEGER" property="infoSex" />
     <result column="info_realname" jdbcType="VARCHAR" property="infoRealname" />
+    <result column="info_place" jdbcType="VARCHAR" property="infoPlace" />
     <result column="info_iconimg" jdbcType="VARCHAR" property="infoIconimg" />
     <result column="info_school_id" jdbcType="INTEGER" property="infoSchoolId" />
     <result column="info_introduce" jdbcType="VARCHAR" property="infoIntroduce" />
@@ -15,14 +16,15 @@
     <result column="info_changetime" jdbcType="TIMESTAMP" property="infoChangetime" />
   </resultMap>
   <sql id="Base_Column_List">
-    info_id, user_id, info_sex, info_realname, info_iconimg, info_school_id, info_introduce, 
-    info_nickname, info_birthday, info_createtime, info_changetime
+    info_id, user_id, info_sex, info_realname, info_place, info_iconimg, info_school_id, 
+    info_introduce, info_nickname, info_birthday, info_createtime, info_changetime
   </sql>
   <resultMap id="CustomResultMap" type="po.InformationCustom">
     <id column="info_id" jdbcType="INTEGER" property="infoId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="info_sex" jdbcType="INTEGER" property="infoSex" />
     <result column="info_realname" jdbcType="VARCHAR" property="infoRealname" />
+    <result column="info_place" jdbcType="VARCHAR" property="infoPlace" />
     <result column="info_iconimg" jdbcType="VARCHAR" property="infoIconimg" />
     <result column="info_school_id" jdbcType="INTEGER" property="infoSchoolId" />
     <result column="info_introduce" jdbcType="VARCHAR" property="infoIntroduce" />
@@ -43,13 +45,15 @@
   </delete>
   <insert id="insert" parameterType="po.Information">
     insert into db_information (info_id, user_id, info_sex, 
-      info_realname, info_iconimg, info_school_id, 
-      info_introduce, info_nickname, info_birthday, 
-      info_createtime, info_changetime)
+      info_realname, info_place, info_iconimg, 
+      info_school_id, info_introduce, info_nickname, 
+      info_birthday, info_createtime, info_changetime
+      )
     values (#{infoId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{infoSex,jdbcType=INTEGER}, 
-      #{infoRealname,jdbcType=VARCHAR}, #{infoIconimg,jdbcType=VARCHAR}, #{infoSchoolId,jdbcType=INTEGER}, 
-      #{infoIntroduce,jdbcType=VARCHAR}, #{infoNickname,jdbcType=VARCHAR}, #{infoBirthday,jdbcType=TIMESTAMP}, 
-      #{infoCreatetime,jdbcType=TIMESTAMP}, #{infoChangetime,jdbcType=TIMESTAMP})
+      #{infoRealname,jdbcType=VARCHAR}, #{infoPlace,jdbcType=VARCHAR}, #{infoIconimg,jdbcType=VARCHAR}, 
+      #{infoSchoolId,jdbcType=INTEGER}, #{infoIntroduce,jdbcType=VARCHAR}, #{infoNickname,jdbcType=VARCHAR}, 
+      #{infoBirthday,jdbcType=TIMESTAMP}, #{infoCreatetime,jdbcType=TIMESTAMP}, #{infoChangetime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="po.Information">
     insert into db_information
@@ -65,6 +69,9 @@
       </if>
       <if test="infoRealname != null">
         info_realname,
+      </if>
+      <if test="infoPlace != null">
+        info_place,
       </if>
       <if test="infoIconimg != null">
         info_iconimg,
@@ -101,6 +108,9 @@
       <if test="infoRealname != null">
         #{infoRealname,jdbcType=VARCHAR},
       </if>
+      <if test="infoPlace != null">
+        #{infoPlace,jdbcType=VARCHAR},
+      </if>
       <if test="infoIconimg != null">
         #{infoIconimg,jdbcType=VARCHAR},
       </if>
@@ -136,6 +146,9 @@
       <if test="infoRealname != null">
         info_realname = #{infoRealname,jdbcType=VARCHAR},
       </if>
+      <if test="infoPlace != null">
+        info_place = #{infoPlace,jdbcType=VARCHAR},
+      </if>
       <if test="infoIconimg != null">
         info_iconimg = #{infoIconimg,jdbcType=VARCHAR},
       </if>
@@ -165,6 +178,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       info_sex = #{infoSex,jdbcType=INTEGER},
       info_realname = #{infoRealname,jdbcType=VARCHAR},
+      info_place = #{infoPlace,jdbcType=VARCHAR},
       info_iconimg = #{infoIconimg,jdbcType=VARCHAR},
       info_school_id = #{infoSchoolId,jdbcType=INTEGER},
       info_introduce = #{infoIntroduce,jdbcType=VARCHAR},

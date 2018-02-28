@@ -125,18 +125,20 @@
       select
       <include refid="Base_getAll_List" />
       from db_follow
+      LEFT join db_user a on a.user_id=db_follow.user_id
+      LEFT join db_user b on b.user_id=db_follow.follow_user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="followId != null">
       follow_id = #{followId,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_follow.user_id
-      LEFT join db_user b on b.user_id=db_follow.follow_user_id
   </select>
   <select id="selectFollowListSelective" parameterType="po.Follow" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_follow 
+      LEFT join db_user a on a.user_id=db_follow.user_id
+      LEFT join db_user b on b.user_id=db_follow.follow_user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="userId != null">
       user_id = #{userId,jdbcType=INTEGER}
@@ -148,14 +150,14 @@
       AND follow_state = #{followState,jdbcType=INTEGER}
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_follow.user_id
-      LEFT join db_user b on b.user_id=db_follow.follow_user_id
       order by follow_createtime DESC
   </select>
   <select id="selectFollowListSelectiveByDate" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_follow
+      LEFT join db_user a on a.user_id=db_follow.user_id
+      LEFT join db_user b on b.user_id=db_follow.follow_user_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="Follow.userId != null">
       user_id = #{userId,jdbcType=INTEGER}
@@ -177,8 +179,6 @@
       ]]>
       </if>
       </trim>
-      LEFT join db_user a on a.user_id=db_follow.user_id
-      LEFT join db_user b on b.user_id=db_follow.follow_user_id
       order by follow_createtime DESC
   </select>
 </mapper>

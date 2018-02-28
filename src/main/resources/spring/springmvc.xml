@@ -30,21 +30,21 @@
 			<!-- 配置解析json -->
 			<bean
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-					<property name="objectMapper">
-						<bean class="com.fasterxml.jackson.databind.ObjectMapper">
-							<!-- 重设Date格式 -->
-							<property name="dateFormat">
-								<bean class="java.text.SimpleDateFormat">
-									<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
-								</bean>
-							</property>
-							<!-- 为null不显示 -->
-							<property name="serializationInclusion">
-								<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
-							</property>
-						</bean>
-					</property>
-				</bean>
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+						<!-- 重设Date格式 -->
+						<property name="dateFormat">
+							<bean class="java.text.SimpleDateFormat">
+								<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+							</bean>
+						</property>
+						<!-- 为null不显示 -->
+						<property name="serializationInclusion">
+							<value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+						</property>
+					</bean>
+				</property>
+			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
@@ -58,4 +58,6 @@
 			<bean class="filter.HeaderTokenFilter" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	<!-- 解析jsp视图，默认使用jstl标签，classpath下要有jstl的包 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
 </beans>

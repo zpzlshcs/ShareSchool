@@ -148,16 +148,20 @@
     where collect_id = #{collectId,jdbcType=INTEGER}
   </update>
   <select id="selectCollectSelective" parameterType="po.Collect" resultMap="CustomResultMap">
-      select * from db_collect
+      select 
+      <include refid="Base_getAll_List" />
+      from db_collect
+      left join db_user on db_collect.user_id=db_user.user_id
+      left join db_task on db_collect.task_id=db_task.task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="collectId != null">
       collect_id = #{collectId,jdbcType=INTEGER}
       </if>
       <if test="userId != null">
-      AND user_id = #{userId,jdbcType=INTEGER}
+      AND db_collect.user_id = #{userId,jdbcType=INTEGER}
       </if>
       <if test="taskId != null">
-      AND task_id = #{taskId,jdbcType=INTEGER}
+      AND db_collect.task_id = #{taskId,jdbcType=INTEGER}
       </if>
       </trim>
   </select>
@@ -165,34 +169,36 @@
       select 
       <include refid="Base_getAll_List" />
       from db_collect 
-      <trim prefix="WHERE" prefixOverrides="AND |OR ">
-      <if test="userId != null">
-      user_id = #{userId,jdbcType=INTEGER}
-      </if>
-      <if test="taskId != null">
-      AND task_id = #{taskId,jdbcType=INTEGER}
-      </if>
-      <if test="collectState != null">
-      AND user_id = #{collectState,jdbcType=INTEGER}
-      </if>
-      </trim>
       left join db_user on db_collect.user_id=db_user.user_id
       left join db_task on db_collect.task_id=db_task.task_id
+      <trim prefix="WHERE" prefixOverrides="AND |OR ">
+      <if test="userId != null">
+      db_collect.user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="taskId != null">
+      AND db_collect.task_id = #{taskId,jdbcType=INTEGER}
+      </if>
+      <if test="collectState != null">
+      AND collect_state = #{collectState,jdbcType=INTEGER}
+      </if>
+      </trim>
       order by collect_createtime DESC
   </select>
   <select id="selectCollectListSelectiveByDate" resultMap="CustomResultMap">
       select
       <include refid="Base_getAll_List" />
       from db_collect
+      left join db_user on db_collect.user_id=db_user.user_id
+      left join db_task on db_collect.task_id=db_task.task_id
       <trim prefix="WHERE" prefixOverrides="AND |OR ">
       <if test="Collect.userId != null">
-      user_id = #{Collect.userId,jdbcType=INTEGER}
+      db_collect.user_id = #{Collect.userId,jdbcType=INTEGER}
       </if>
       <if test="Collect.taskId != null">
-      AND task_id = #{Collect.taskId,jdbcType=INTEGER}
+      AND db_collect.task_id = #{Collect.taskId,jdbcType=INTEGER}
       </if>
       <if test="Collect.collectState != null">
-      AND user_id = #{Collect.collectState,jdbcType=INTEGER}
+      AND collect_state = #{Collect.collectState,jdbcType=INTEGER}
       </if>
       <if test="startTime != null">
       <![CDATA[
@@ -205,8 +211,6 @@
       ]]>
       </if>
       </trim>
-      left join db_user on db_collect.user_id=db_user.user_id
-      left join db_task on db_collect.task_id=db_task.task_id
       order by collect_createtime DESC
   </select>
 </mapper>

@@ -7,7 +7,7 @@ public class Evaluate {
 
     private Integer userId;
 
-    private Integer taskId;
+    private Integer orderId;
 
     private String evaluateContent;
 
@@ -37,12 +37,12 @@ public class Evaluate {
         this.userId = userId;
     }
 
-    public Integer getTaskId() {
-        return taskId;
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
 
     public String getEvaluateContent() {

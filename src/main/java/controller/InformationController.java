@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,11 +37,13 @@ import utils.ResultList;
 *---------------------------------------------------------*
 * 2018年2月7日     GzpzG           v1.0.0               创建
  */
+@Controller
+@RequestMapping("/info")
 public class InformationController {
 	@Autowired
 	InformationService infoService;
 	
-	@RequestMapping(value="/changeInfo",method=RequestMethod.GET)
+	@RequestMapping(value="/changeInfo",method=RequestMethod.POST)
 	@ResponseBody
 	public ResultBean<InformationCustom> changeInfo
 	(@RequestBody InformationCustom informationCustom,HttpServletRequest request) throws Exception{
@@ -60,6 +63,8 @@ public class InformationController {
 		InformationCustom info = new InformationCustom();
 		if(map.containsKey("infoId"))
 			info.setInfoId(Integer.valueOf(map.get("infoId")));
+		if(map.containsKey("userId"))
+			info.setUserId(Integer.valueOf(map.get("userId")));
 		return infoService.getInformationSelective(info);
 	}
 	

@@ -10,7 +10,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import po.Information;
+import po.TaskCustom;
 import po.User;
+import service.TaskService;
 
 
 
@@ -30,14 +32,19 @@ public class mappertest {
 		InformationMapper informationMapper = ctx.getBean(InformationMapper.class);
 		Information info = new Information();
 		info.setInfoSex(0);
-		//System.out.println(informationMapper.selectInformationListSelective(info).size());
+		System.out.println(informationMapper.selectInformationListSelective(info).size());
 		CommentMapper commentMapper = ctx.getBean(CommentMapper.class);
 		ObjectMapper objectMapper = new ObjectMapper();  
         //String json = objectMapper.writeValueAsString(commentMapper.selectCommentListSelective(null)); 
 		//System.out.println(json);
 		OrderMapper orderMapper = ctx.getBean(OrderMapper.class);
-		String order = objectMapper.writeValueAsString(orderMapper.selectOrderListSelective(null));
-		System.out.println(order);
+//		String order = objectMapper.writeValueAsString(orderMapper.selectOrderListSelective(null));
+//		System.out.println(order);
+		TaskMapper taskMapper = ctx.getBean(TaskMapper.class);
+		TaskCustom task = new TaskCustom();
+		task.setTaskSchedule(0);
+		//System.out.println(objectMapper.writeValueAsString(taskMapper.selectTaskListSelective(task)));
+		
 	}
 
 }
